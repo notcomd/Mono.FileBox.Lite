@@ -1,14 +1,28 @@
-## .NET / Build
+# Build results
 [Bb]in/
 [Oo]bj/
 [Dd]ebug/
 [Rr]elease/
 *.user
 *.suo
-.vs/
-*.binlog
-*.log
 
-## IDE
+# NuGet
+packages/
+*.nupkg
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# VS
+.vs/
 .idea/
-*.swp
+.vscode/
+*.user
+
+# Test results
+TestResults/
+[Tt]est[Rr]esult*/
+
+# OS
+Thumbs.db
+.DS_Store
