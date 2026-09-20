@@ -17,6 +17,30 @@ public sealed class LocalFileSystemDevice : IPhysicalDevice
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Streams <paramref name="content"/> to <paramref name="path"/> with a bounded buffer,
+    /// avoiding buffering the whole payload in memory. Used by the I/O pipeline for
+    /// large, (possibly non-seekable) source streams.
+    /// </summary>
+    public Task WriteBlockStreamAsync(string path, Stream content, CancellationToken ct)
+    {
+        ct.ThrowIfCancellationRequested();
+        var dir = Path.GetDirectoryName(path);
+        if (!string.IsNullOrEmpty(dir)) Directory.CreateDirectory(dir);
+        if (content.CanSeek) content.Position = 0;
+
+        using var output = File.Create(path);
+        var buffer = new byte[81920];
+        int read;
+        while ((read = content.Read(buffer, 0, buffer.Length)) > 0)
+        {
+            ct.ThrowIfCancellationRequested();
+            output.Write(buffer, 0, read);
+        }
+        output.Flush();
+        return Task.CompletedTask;
+    }
+
     public Task<ReadOnlyMemory<byte>> ReadBlockAsync(string path, CancellationToken ct)
     {
         ct.ThrowIfCancellationRequested();

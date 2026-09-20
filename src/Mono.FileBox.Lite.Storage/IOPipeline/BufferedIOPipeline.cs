@@ -1,4 +1,5 @@
 using Mono.FileBox.Lite.Abstractions.Storage;
+using Mono.FileBox.Lite.Storage.PhysicalDevice;
 
 namespace Mono.FileBox.Lite.Storage.IOPipeline;
 
@@ -19,8 +20,14 @@ public sealed class BufferedIOPipeline : IIOPipeline
         if (disk is not LocalDiskHandle local)
             throw new NotSupportedException($"Unsupported disk handle '{disk.GetType().FullName}'.");
 
+        var path = ObjectPathMapper.Resolve(local.RootPath, contentHash);
+
+        // Streaming path: bounded-buffer copy, no full buffering of the payload.
+        if (_device is LocalFileSystemDevice fs)
+            return fs.WriteBlockStreamAsync(path, content, ct);
+
         var bytes = ReadAll(content, ct);
-        return _device.WriteBlockAsync(ObjectPathMapper.Resolve(local.RootPath, contentHash), bytes, ct);
+        return _device.WriteBlockAsync(path, bytes, ct);
     }
 
     public async Task<Stream> ReadAsync(
