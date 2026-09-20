@@ -1,8 +1,17 @@
 <Solution>
-  <Folder Name="/samples/">
-    <Project Path="samples/Mono.FileBox.Lite.Console/Mono.FileBox.Lite.Console.csproj" />
-  </Folder>
   <Folder Name="/src/">
-    <Project Path="src/Mono.FileBox.Lite/Mono.FileBox.Lite.csproj" />
+    <Project Path="src/Mono.FileBox.Lite.Abstractions/Mono.FileBox.Lite.Abstractions.csproj" />
+    <Project Path="src/Mono.FileBox.Lite.StateMachine/Mono.FileBox.Lite.StateMachine.csproj" />
+    <Project Path="src/Mono.FileBox.Lite.Storage/Mono.FileBox.Lite.Storage.csproj" />
+    <Project Path="src/Mono.FileBox.Lite.Subsystems/Mono.FileBox.Lite.Subsystems.csproj" />
+    <Project Path="src/Mono.FileBox.Lite.Index/Mono.FileBox.Lite.Index.csproj" />
+    <Project Path="src/Mono.FileBox.Lite.Backup/Mono.FileBox.Lite.Backup.csproj" />
+    <Project Path="src/Mono.FileBox.Lite.Cluster/Mono.FileBox.Lite.Cluster.csproj" />
+    <Project Path="src/Mono.FileBox.Lite.Configuration/Mono.FileBox.Lite.Configuration.csproj" />
+    <Project Path="src/Mono.FileBox.Lite.UseCases/Mono.FileBox.Lite.UseCases.csproj" />
+    <Project Path="src/Mono.FileBox.Lite.DependencyInjection/Mono.FileBox.Lite.DependencyInjection.csproj" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/Mono.FileBox.Lite.Sample/Mono.FileBox.Lite.Sample.csproj" />
   </Folder>
 </Solution>
