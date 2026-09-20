@@ -19,6 +19,14 @@ public static class ObjectPathMapper
     /// <summary>Absolute block path given a pool root and a content hash.</summary>
     public static string Resolve(string poolRoot, string contentHash)
         => Path.Combine(poolRoot, RelativeBlockPath(contentHash));
+
+    /// <summary>Relative object-manifest path for a (chunked) object content hash.</summary>
+    public static string RelativeManifestPath(string contentHash)
+        => Path.Combine("manifests", contentHash.Substring(0, 2), contentHash.Substring(2, 2), contentHash + ".manifest");
+
+    /// <summary>Absolute object-manifest path given a pool root and a content hash.</summary>
+    public static string ResolveManifest(string poolRoot, string contentHash)
+        => Path.Combine(poolRoot, RelativeManifestPath(contentHash));
 }
 
 /// <summary>

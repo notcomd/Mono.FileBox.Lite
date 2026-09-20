@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mono.FileBox.Lite.Abstractions\Mono.FileBox.Lite.Abstractions.csproj" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
 
 </Project>

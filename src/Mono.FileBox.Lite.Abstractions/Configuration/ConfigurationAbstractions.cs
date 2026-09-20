@@ -47,6 +47,23 @@ public sealed class StorageOptions
     public string HashAlgorithm { get; set; } = "SHA-256";
     public DeduplicationMode Deduplication { get; set; } = DeduplicationMode.Global;
     public bool VerifyAfterWrite { get; set; }
+
+    /// <summary>
+    /// Object-internal fixed-size chunking. When disabled (default) each object is a
+    /// single physical block. When enabled, objects larger than one chunk are split into
+    /// fixed-size chunks, each stored as its own block plus an object-level manifest.
+    /// </summary>
+    public ChunkingOptions Chunking { get; set; } = new();
+}
+
+/// <summary>Options for object-internal fixed-size chunking.</summary>
+public sealed class ChunkingOptions
+{
+    /// <summary>Enables chunking (per chunk-block write + object manifest).</summary>
+    public bool Enabled { get; set; }
+
+    /// <summary>Target bytes per chunk. Objects larger than this are split.</summary>
+    public long ChunkSizeBytes { get; set; } = 8L * 1024 * 1024;
 }
 
 public sealed class PoolOptions

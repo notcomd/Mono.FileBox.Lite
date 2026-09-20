@@ -123,9 +123,20 @@ public static class FileBoxServiceCollectionExtensions
         services.AddSingleton<IPhysicalDevice, LocalFileSystemDevice>();
         services.AddSingleton<IIOPipeline, BufferedIOPipeline>();
         services.AddSingleton<IDiskSelector>(sp => new ConsistentHashDiskSelector(GetEnabledPools(sp)));
-        services.AddSingleton<IObjectWriter, Sha256ObjectWriter>();
-        services.AddSingleton<IObjectReader, StorageObjectReader>();
-        services.AddSingleton<IPhysicalEraser, StoragePhysicalEraser>();
+        services.AddSingleton<IObjectWriter>(sp => new Sha256ObjectWriter(
+            sp.GetRequiredService<IDiskSelector>(),
+            sp.GetRequiredService<IIOPipeline>(),
+            sp.GetRequiredService<IPhysicalDevice>(),
+            sp.GetRequiredService<FileBoxOptions>().Storage.Chunking));
+        services.AddSingleton<IObjectReader>(sp => new StorageObjectReader(
+            sp.GetRequiredService<IDiskSelector>(),
+            sp.GetRequiredService<IIOPipeline>(),
+            sp.GetRequiredService<IPhysicalDevice>()));
+        services.AddSingleton<IPhysicalEraser>(sp => new StoragePhysicalEraser(
+            sp.GetRequiredService<IDiskSelector>(),
+            sp.GetRequiredService<IIOPipeline>(),
+            sp.GetRequiredService<IPhysicalDevice>(),
+            sp.GetService<IIndexWriter>()));
 
         configure?.Invoke(new StorageBuilder(services));
         return services;

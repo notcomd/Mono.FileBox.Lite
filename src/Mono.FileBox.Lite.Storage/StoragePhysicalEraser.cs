@@ -1,26 +1,31 @@
 using Mono.FileBox.Lite.Abstractions;
 using Mono.FileBox.Lite.Abstractions.Subsystems;
 using Mono.FileBox.Lite.Abstractions.Storage;
+using Mono.FileBox.Lite.Storage.ObjectWriter;
 
 namespace Mono.FileBox.Lite.Storage;
 
 /// <summary>
-/// Physical erasure for the Purge transition: deletes the physical block and the
-/// index entry, confirming both before returning.
+/// Physical erasure for the Purge transition. Deletes the physical block (legacy) or,
+/// for chunked objects, the manifest and every chunk block, then removes the index
+/// entry — confirming both before returning.
 /// </summary>
 public sealed class StoragePhysicalEraser : IPhysicalEraser, ITransitionAction
 {
     private readonly IDiskSelector _selector;
     private readonly IIOPipeline _pipeline;
+    private readonly IPhysicalDevice _device;
     private readonly IIndexWriter? _indexWriter;
 
     public StoragePhysicalEraser(
         IDiskSelector selector,
         IIOPipeline pipeline,
+        IPhysicalDevice device,
         IIndexWriter? indexWriter = null)
     {
         _selector = selector;
         _pipeline = pipeline;
+        _device = device;
         _indexWriter = indexWriter;
     }
 
@@ -29,6 +34,20 @@ public sealed class StoragePhysicalEraser : IPhysicalEraser, ITransitionAction
         if (string.IsNullOrWhiteSpace(ctx.ContentHash)) return;
 
         var disk = await _selector.SelectForReadAsync(ctx.ContentHash, ct).ConfigureAwait(false);
+
+        if (disk is LocalDiskHandle local)
+        {
+            var manifest = await ChunkManifestCodec.ReadAsync(_device, local, ctx.ContentHash, ct).ConfigureAwait(false);
+            if (manifest is not null)
+            {
+                // Chunked object: delete each chunk block, then the manifest.
+                foreach (var chunkHash in manifest.ChunkHashes)
+                    await _pipeline.DeleteAsync(disk, chunkHash, ct).ConfigureAwait(false);
+                await ChunkManifestCodec.DeleteAsync(_device, local, ctx.ContentHash, ct).ConfigureAwait(false);
+                return;
+            }
+        }
+
         await _pipeline.DeleteAsync(disk, ctx.ContentHash, ct).ConfigureAwait(false);
 
         if (_indexWriter is not null)

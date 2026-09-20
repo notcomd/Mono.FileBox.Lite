@@ -44,7 +44,11 @@ public static class Program
 
             // Deterministic, replayable source stream: no full payload buffer in memory.
             Console.WriteLine("  using replayable generating stream (O(1) payload memory) ...");
-            using var content = new PatternStream(sizeBytes, seed: 42);
+            var contentSeed = DateTime.UtcNow.Ticks;
+            using var content = new PatternStream(sizeBytes, seed: contentSeed);
+
+            var blocksBefore = FileCount(poolRoot, "blocks");
+            var manifestsBefore = FileCount(poolRoot, "manifests");
 
             // Start the resource sampler.
             var cts = new CancellationTokenSource();
@@ -103,6 +107,47 @@ public static class Program
                 Tags = new Dictionary<string, string> { ["size"] = sizeMb.ToString() }
             }, CancellationToken.None);
             Console.WriteLine($"  index verify   : matched={page.Items.Count} (content-addressed)");
+
+            var blocksAfter = FileCount(poolRoot, "blocks");
+            var manifestsAfter = FileCount(poolRoot, "manifests");
+            Console.WriteLine($"  chunk layout   : +{blocksAfter - blocksBefore} block files " +
+                              $"+{manifestsAfter - manifestsBefore} manifest file(s) " +
+                              $"(≈{Math.Max(1, (long)Math.Ceiling((double)sizeBytes / (8L * 1024 * 1024)))} chunks @8 MiB)");
+
+            // Read a window that spans two chunks and verify every returned byte matches the source pattern.
+            const long chunkSize = 8L * 1024 * 1024;
+            var spanStart = chunkSize - 3;
+            var get = provider.GetRequiredService<IGetObjectUseCase>();
+            var back = await get.ExecuteAsync(new GetObjectCommand
+            {
+                ContentHash = putResult.ContentHash,
+                NamespaceId = "ns1",
+                Offset = spanStart,
+                Length = 6
+            }, CancellationToken.None);
+            if (back.Content is null)
+            {
+                Console.Error.WriteLine("Range read returned no content.");
+                return 1;
+            }
+            var gotBytes = new byte[6];
+            var gotRead = await back.Content.ReadAsync(gotBytes, CancellationToken.None);
+            if (gotRead != 6)
+            {
+                Console.Error.WriteLine($"Range read short: expected 6 got {gotRead}.");
+                return 1;
+            }
+            for (var i = 0; i < 6; i++)
+            {
+                var n = unchecked((uint)(spanStart + i));
+                var expected = (byte)((n * 2654435761U) >> 24 ^ (byte)(contentSeed >> 8));
+                if (gotBytes[i] != expected)
+                {
+                    Console.Error.WriteLine($"Range read mismatch at +{i}: got {gotBytes[i]:X2} expected {expected:X2}.");
+                    return 1;
+                }
+            }
+            Console.WriteLine("  range read across chunks: OK (6 bytes spanning a chunk boundary verified)");
 
             Console.WriteLine();
             Console.WriteLine("Sample completed successfully.");
@@ -184,6 +229,20 @@ public static class Program
         }
     }
 
+    private static long FileCount(string poolRoot, string subPath)
+    {
+        var path = Path.Combine(poolRoot, subPath);
+        if (!Directory.Exists(path)) return 0;
+        try
+        {
+            return Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories).Count();
+        }
+        catch
+        {
+            return 0;
+        }
+    }
+
     private static string FormatBytes(double bytes)
     {
         if (bytes < 1024) return $"{bytes:N0} B";
@@ -211,7 +270,8 @@ public static class Program
                         Tier = StorageTier.Hot,
                         Enabled = true
                     }
-                }
+                },
+                Chunking = { Enabled = true }
             }
         };
 
@@ -254,10 +314,12 @@ public static class Program
             if (_pos >= _length) return 0;
             count = (int)Math.Min(count, _length - _pos);
             for (var i = 0; i < count; i++)
-                unchecked
-                {
-                    buffer[offset + i] = (byte)((_pos + i) * 31 + _seed);
-                }
+            {
+                // Multiplicative (Knuth) mixing so consecutive chunks carry distinct bytes
+                // even when chunk boundaries align to periods of simple arithmetic.
+                var n = unchecked((uint)(_pos + i));
+                buffer[offset + i] = (byte)((n * 2654435761U) >> 24 ^ (byte)(_seed >> 8));
+            }
             _pos += count;
             return count;
         }
