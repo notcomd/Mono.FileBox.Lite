@@ -8,7 +8,7 @@ namespace Mono.FileBox.Lite.Storage;
 /// Physical erasure for the Purge transition: deletes the physical block and the
 /// index entry, confirming both before returning.
 /// </summary>
-public sealed class StoragePhysicalEraser : IPhysicalEraser
+public sealed class StoragePhysicalEraser : IPhysicalEraser, ITransitionAction
 {
     private readonly IDiskSelector _selector;
     private readonly IIOPipeline _pipeline;
@@ -34,4 +34,7 @@ public sealed class StoragePhysicalEraser : IPhysicalEraser
         if (_indexWriter is not null)
             await _indexWriter.RemoveAsync(ctx.ContentHash, ct).ConfigureAwait(false);
     }
+
+    public Task ExecuteAsync(IObjectContext ctx, CancellationToken ct)
+        => EraseAsync(ctx, ct);
 }
