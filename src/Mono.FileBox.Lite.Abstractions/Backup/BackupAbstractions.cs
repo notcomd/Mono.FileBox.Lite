@@ -161,3 +161,28 @@ public interface IBackupGarbageCollector
 {
     Task<long> CollectAsync(CancellationToken ct);
 }
+
+/// <summary>Persists backup-point metadata.</summary>
+public interface IBackupPointStore
+{
+    Task SaveAsync(BackupPoint point, CancellationToken ct);
+    Task<BackupPoint?> GetAsync(string backupId, CancellationToken ct);
+    Task DeleteAsync(string backupId, CancellationToken ct);
+    Task<IReadOnlyList<BackupPoint>> ListAsync(BackupQuery query, CancellationToken ct);
+}
+
+/// <summary>Persists backup manifests keyed by backup id.</summary>
+public interface IBackupManifestStore
+{
+    Task SaveAsync(string backupId, BackupManifest manifest, CancellationToken ct);
+    Task<BackupManifest?> GetAsync(string backupId, CancellationToken ct);
+    Task DeleteAsync(string backupId, CancellationToken ct);
+}
+
+/// <summary>Resolves a logical target id to a concrete <see cref="IBackupTarget"/>.</summary>
+public interface IBackupTargetResolver
+{
+    IBackupTarget Resolve(string targetId);
+    void Register(string targetId, IBackupTarget target);
+    IReadOnlyList<string> TargetIds { get; }
+}

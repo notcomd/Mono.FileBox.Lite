@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Mono.FileBox.Lite.Backup</AssemblyName>
+    <RootNamespace>Mono.FileBox.Lite.Backup</RootNamespace>
+    <Description>Mono.FileBox.Lite L2 object backup: targets, writer, manifest, restore, scheduler.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mono.FileBox.Lite.Abstractions\Mono.FileBox.Lite.Abstractions.csproj" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+  </ItemGroup>
+
+</Project>
