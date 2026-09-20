@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Mono.FileBox.Lite.StateMachine</AssemblyName>
+    <RootNamespace>Mono.FileBox.Lite.StateMachine</RootNamespace>
+    <Description>Mono.FileBox.Lite L3 object lifecycle state machine engine.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mono.FileBox.Lite.Abstractions\Mono.FileBox.Lite.Abstractions.csproj" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+  </ItemGroup>
+
+</Project>
