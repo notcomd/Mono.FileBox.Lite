@@ -69,22 +69,28 @@ public sealed class TransitionBuilder
         return this;
     }
 
-    /// <summary>Registers a <see cref="IGuard"/> to run as a pre-condition.</summary>
-    public TransitionBuilder Guard<T>() where T : class, IGuard
+    /// <summary>
+    /// Registers a guard component. The type is resolved through DI at fire time and
+    /// cast to <see cref="IGuard"/>; its concrete implementation must therefore also
+    /// implement <see cref="IGuard"/>. This mirrors the documented
+    /// <c>.Guard&lt;IDistributedLock&gt;()</c> usage where the service and role interfaces
+    /// are implemented by the same concrete type.
+    /// </summary>
+    public TransitionBuilder Guard<T>() where T : class
     {
         _registration.Guards.Add(typeof(T));
         return this;
     }
 
-    /// <summary>Registers an <see cref="ITransitionAction"/> to execute.</summary>
-    public TransitionBuilder Do<T>() where T : class, ITransitionAction
+    /// <summary>Registers an action component (resolved and cast to <see cref="ITransitionAction"/>).</summary>
+    public TransitionBuilder Do<T>() where T : class
     {
         _registration.Actions.Add(typeof(T));
         return this;
     }
 
-    /// <summary>Registers an <see cref="ITransitionObserver"/> as a side-channel.</summary>
-    public TransitionBuilder Observe<T>() where T : class, ITransitionObserver
+    /// <summary>Registers an observer component (resolved and cast to <see cref="ITransitionObserver"/>).</summary>
+    public TransitionBuilder Observe<T>() where T : class
     {
         _registration.Observers.Add(typeof(T));
         return this;

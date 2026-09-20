@@ -6,39 +6,44 @@ using Mono.FileBox.Lite.Abstractions.Subsystems;
 namespace Mono.FileBox.Lite.Subsystems;
 
 /// <summary>Distributed lock that always grants. Single-node default implementation.</summary>
-public sealed class NoOpDistributedLock : IDistributedLock
+public sealed class NoOpDistributedLock : IDistributedLock, IGuard
 {
     public Task<bool> CanEnterAsync(IObjectContext ctx, CancellationToken ct)
         => Task.FromResult(true);
 }
 
 /// <summary>Lifecycle policy that never expires/archives an object.</summary>
-public sealed class NeverExpirePolicy : ILifecyclePolicy
+public sealed class NeverExpirePolicy : ILifecyclePolicy, IGuard
 {
     public Task<bool> CanEnterAsync(IObjectContext ctx, CancellationToken ct)
         => Task.FromResult(false);
 }
 
-/// <summary>Moderator that passes every object (no-op).</summary>
-public sealed class PassThroughModerator : IContentModerator
+/// <summary>Moderator that passes every object (no-op). Also an action for the Audit transition.</summary>
+public sealed class PassThroughModerator : IContentModerator, ITransitionAction
 {
     public Task<ModerationResult> ModerateAsync(IObjectContext ctx, CancellationToken ct)
         => Task.FromResult(ModerationResult.Pass("pass-through-v1"));
-}
 
-/// <summary>Event bus that drops all events.</summary>
-public sealed class NullEventBus : IEventBus
-{
-    public Task PublishAsync(string topic, object payload, CancellationToken ct)
+    public Task ExecuteAsync(IObjectContext ctx, CancellationToken ct)
         => Task.CompletedTask;
 }
 
-/// <summary>Transition logger that discards output.</summary>
-public sealed class NullLogger : ITransitionLogger
+/// <summary>Event bus that drops all events. Also an observer role for transitions.</summary>
+public sealed class NullEventBus : IEventBus, ITransitionObserver
 {
-    public void Log(ObjectTrigger t, ObjectState from, ObjectState to)
-    {
-    }
+    public Task PublishAsync(string topic, object payload, CancellationToken ct)
+        => Task.CompletedTask;
+    public Task OnBeforeAsync(ObjectTrigger t, IObjectContext ctx, CancellationToken ct) => Task.CompletedTask;
+    public Task OnAfterAsync(ObjectTrigger t, IObjectContext ctx, CancellationToken ct) => Task.CompletedTask;
+}
+
+/// <summary>Transition logger that discards output. Also an observer role.</summary>
+public sealed class NullLogger : ITransitionLogger, ITransitionObserver
+{
+    public void Log(ObjectTrigger t, ObjectState from, ObjectState to) { }
+    public Task OnBeforeAsync(ObjectTrigger t, IObjectContext ctx, CancellationToken ct) => Task.CompletedTask;
+    public Task OnAfterAsync(ObjectTrigger t, IObjectContext ctx, CancellationToken ct) => Task.CompletedTask;
 }
 
 /// <summary>Leader election that always elects the local node.</summary>

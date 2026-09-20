@@ -46,9 +46,11 @@ internal static class TransitionLoggerStateKey
 }
 
 /// <summary>
-/// Console transition logger. Writes one line per committed transition.
+/// Console transition logger. Writes one line per committed transition. Also acts as an
+/// <see cref="ITransitionObserver"/> so it can be attached via
+/// <c>.Observe&lt;ITransitionLogger&gt;()</c>.
 /// </summary>
-public sealed class DefaultTransitionLogger : ITransitionLogger
+public sealed class DefaultTransitionLogger : ITransitionLogger, ITransitionObserver
 {
     private readonly TextWriter _output;
 
@@ -56,10 +58,20 @@ public sealed class DefaultTransitionLogger : ITransitionLogger
 
     public void Log(ObjectTrigger t, ObjectState from, ObjectState to)
         => _output.WriteLine($"[state-machine] {from} --({t})--> {to}");
+
+    public Task OnBeforeAsync(ObjectTrigger t, IObjectContext ctx, CancellationToken ct)
+        => Task.CompletedTask;
+
+    public Task OnAfterAsync(ObjectTrigger t, IObjectContext ctx, CancellationToken ct)
+    {
+        Log(t, ctx.Items.TryGetValue(TransitionLoggerStateKey.From, out var f)
+            ? (ObjectState)f : ctx.CurrentState, ctx.CurrentState);
+        return Task.CompletedTask;
+    }
 }
 
-/// <summary>Console event bus: writes published topics to the console.</summary>
-public sealed class ConsoleEventBus : IEventBus
+/// <summary>Console event bus: writes published topics to the console. Also an observer role.</summary>
+public sealed class ConsoleEventBus : IEventBus, ITransitionObserver
 {
     private readonly TextWriter _output;
 
@@ -71,4 +83,10 @@ public sealed class ConsoleEventBus : IEventBus
         _output.WriteLine($"[event] {topic} hash={hash}");
         return Task.CompletedTask;
     }
+
+    public Task OnBeforeAsync(ObjectTrigger t, IObjectContext ctx, CancellationToken ct)
+        => Task.CompletedTask;
+
+    public Task OnAfterAsync(ObjectTrigger t, IObjectContext ctx, CancellationToken ct)
+        => PublishAsync($"object.{t}".ToLowerInvariant(), ctx, ct);
 }
