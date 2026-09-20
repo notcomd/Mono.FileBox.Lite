@@ -171,6 +171,9 @@ public sealed class QueryPlan
     public IReadOnlyList<IIndexScan> Filters { get; init; } = Array.Empty<IIndexScan>();
     public IndexSort? Sort { get; init; }
     public PageRequest Page { get; init; } = new();
+
+    /// <summary>The original query, retained so the executor can apply an authoritative final filter.</summary>
+    public IndexQuery? Source { get; init; }
 }
 
 /// <summary>Produces an execution plan for a query given the available providers.</summary>
@@ -237,6 +240,15 @@ public interface IEntryStore
     Task<IndexEntry?> GetAsync(string contentHash, CancellationToken ct);
     Task DeleteAsync(string contentHash, CancellationToken ct);
     Task<IReadOnlyList<IndexEntry>> GetManyAsync(IEnumerable<string> hashes, CancellationToken ct);
+
+    /// <summary>Lists all entries belonging to a namespace (no pagination).</summary>
+    Task<IReadOnlyList<IndexEntry>> ListByNamespaceAsync(string namespaceId, CancellationToken ct);
+
+    /// <summary>Lists every entry in the store.</summary>
+    Task<IReadOnlyList<IndexEntry>> ListAllAsync(CancellationToken ct);
+
+    /// <summary>Removes all entries (used by full rebuild).</summary>
+    Task ClearAsync(CancellationToken ct);
 }
 
 /// <summary>Encodes/decodes opaque pagination cursors.</summary>
