@@ -7,7 +7,7 @@ namespace Mono.FileBox.Lite.StateMachine;
 /// the state machine can update the current state and actions can record derived
 /// values (such as the computed content hash) as the pipeline progresses.
 /// </summary>
-public sealed class DefaultObjectContext : IObjectContext
+public sealed class DefaultObjectContext : IMutableObjectContext
 {
     private readonly Dictionary<string, object> _items = new();
 

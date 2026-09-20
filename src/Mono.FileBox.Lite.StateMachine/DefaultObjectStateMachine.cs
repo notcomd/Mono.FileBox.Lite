@@ -141,7 +141,7 @@ public sealed class DefaultObjectStateMachine : IObjectStateMachine
 
     private static void SetState(IObjectContext ctx, ObjectState state)
     {
-        if (ctx is DefaultObjectContext mutable)
+        if (ctx is IMutableObjectContext mutable)
             mutable.CurrentState = state;
     }
 

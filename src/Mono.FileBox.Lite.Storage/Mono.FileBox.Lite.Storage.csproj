@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Mono.FileBox.Lite.Storage</AssemblyName>
+    <RootNamespace>Mono.FileBox.Lite.Storage</RootNamespace>
+    <Description>Mono.FileBox.Lite L1 content-addressed storage engine.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mono.FileBox.Lite.Abstractions\Mono.FileBox.Lite.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
