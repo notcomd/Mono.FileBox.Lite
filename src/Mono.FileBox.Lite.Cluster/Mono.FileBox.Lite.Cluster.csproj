@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Mono.FileBox.Lite.Cluster</AssemblyName>
+    <RootNamespace>Mono.FileBox.Lite.Cluster</RootNamespace>
+    <Description>Mono.FileBox.Lite L2 cluster coordination: hash ring, topology, expand/shrink, capacity, tiering.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mono.FileBox.Lite.Abstractions\Mono.FileBox.Lite.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
