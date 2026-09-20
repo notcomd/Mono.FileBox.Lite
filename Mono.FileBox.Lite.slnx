@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/samples/">
+    <Project Path="samples/Mono.FileBox.Lite.Console/Mono.FileBox.Lite.Console.csproj" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/Mono.FileBox.Lite/Mono.FileBox.Lite.csproj" />
   </Folder>
