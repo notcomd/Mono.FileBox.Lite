@@ -1,3 +1,4 @@
+using System.Buffers;
 using Mono.FileBox.Lite.Abstractions.Storage;
 
 namespace Mono.FileBox.Lite.Storage.PhysicalDevice;
@@ -30,14 +31,21 @@ public sealed class LocalFileSystemDevice : IPhysicalDevice
         if (content.CanSeek) content.Position = 0;
 
         using var output = File.Create(path);
-        var buffer = new byte[81920];
-        int read;
-        while ((read = content.Read(buffer, 0, buffer.Length)) > 0)
+        var buffer = ArrayPool<byte>.Shared.Rent(81920);
+        try
         {
-            ct.ThrowIfCancellationRequested();
-            output.Write(buffer, 0, read);
+            int read;
+            while ((read = content.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                ct.ThrowIfCancellationRequested();
+                output.Write(buffer, 0, read);
+            }
+            output.Flush();
         }
-        output.Flush();
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(buffer);
+        }
         return Task.CompletedTask;
     }
 

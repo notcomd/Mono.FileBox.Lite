@@ -18,15 +18,22 @@ public static class Sha256
     public static string Compute(Stream content, CancellationToken ct = default)
     {
         using var sha = System.Security.Cryptography.SHA256.Create();
-        var buffer = new byte[81920];
-        int read;
-        while ((read = content.Read(buffer, 0, buffer.Length)) > 0)
+        var buffer = System.Buffers.ArrayPool<byte>.Shared.Rent(81920);
+        try
         {
-            ct.ThrowIfCancellationRequested();
-            sha.TransformBlock(buffer, 0, read, buffer, 0);
+            int read;
+            while ((read = content.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                ct.ThrowIfCancellationRequested();
+                sha.TransformBlock(buffer, 0, read, buffer, 0);
+            }
+            sha.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
+            return ToHex(sha.Hash!);
         }
-        sha.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
-        return ToHex(sha.Hash!);
+        finally
+        {
+            System.Buffers.ArrayPool<byte>.Shared.Return(buffer);
+        }
     }
 
     /// <summary>Stable 64-bit hash of a string, used by the consistent-hash ring.</summary>

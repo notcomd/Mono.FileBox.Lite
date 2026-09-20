@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Security.Cryptography;
 using Mono.FileBox.Lite.Abstractions;
 using Mono.FileBox.Lite.Abstractions.Subsystems;
@@ -49,16 +50,23 @@ public sealed class Sha256ObjectWriter : IObjectWriter, ITransitionAction
             string hash;
             using (var sha = SHA256.Create())
             {
-                using (var fs = File.Create(temp))
+                var buffer = ArrayPool<byte>.Shared.Rent(81920);
+                try
                 {
-                    var buffer = new byte[81920];
-                    int read;
-                    while ((read = await content.ReadAsync(buffer, 0, buffer.Length, ct).ConfigureAwait(false)) > 0)
+                    using (var fs = File.Create(temp))
                     {
-                        sha.TransformBlock(buffer, 0, read, buffer, 0);
-                        await fs.WriteAsync(buffer, 0, read, ct).ConfigureAwait(false);
+                        int read;
+                        while ((read = await content.ReadAsync(buffer, 0, buffer.Length, ct).ConfigureAwait(false)) > 0)
+                        {
+                            sha.TransformBlock(buffer, 0, read, buffer, 0);
+                            await fs.WriteAsync(buffer, 0, read, ct).ConfigureAwait(false);
+                        }
+                        sha.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
                     }
-                    sha.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
+                }
+                finally
+                {
+                    ArrayPool<byte>.Shared.Return(buffer);
                 }
                 hash = Hex(sha.Hash!);
             }

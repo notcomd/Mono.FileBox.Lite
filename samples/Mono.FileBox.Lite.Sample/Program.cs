@@ -42,11 +42,9 @@ public static class Program
                               $"managed={FormatBytes(baselineManaged)} disk(used)={FormatBytes(baselineDisk)}");
             Console.WriteLine($"  logical CPUs   : {Environment.ProcessorCount}");
 
-            // Allocate the payload once.
-            Console.WriteLine("  generating payload ...");
-            var payload = new byte[sizeBytes];
-            new Random(42).NextBytes(payload);
-            using var content = new MemoryStream(payload);
+            // Deterministic, replayable source stream: no full payload buffer in memory.
+            Console.WriteLine("  using replayable generating stream (O(1) payload memory) ...");
+            using var content = new PatternStream(sizeBytes, seed: 42);
 
             // Start the resource sampler.
             var cts = new CancellationTokenSource();
@@ -67,7 +65,6 @@ public static class Program
 
             cts.Cancel();
             await sampler;
-            content.Dispose();
 
             if (!putResult.Succeeded)
             {
@@ -224,5 +221,59 @@ public static class Program
         services.AddMonoFileBoxLiteIndex();
         services.AddMonoFileBoxLiteUseCases();
         return services.BuildServiceProvider();
+    }
+
+    /// <summary>
+    /// A seekable, deterministic stream that generates bytes from the read position on
+    /// demand (O(1) memory). Because it is replayable, the engine hashes a pass and then
+    /// stream-writes a rewind, both reading identical bytes — so even a multi-gigabyte
+    /// upload never materializes the payload in memory.
+    /// </summary>
+    private sealed class PatternStream : Stream
+    {
+        private readonly long _length;
+        private readonly long _seed;
+        private long _pos;
+
+        public PatternStream(long length, long seed)
+        {
+            _length = length;
+            _seed = seed;
+        }
+
+        public override bool CanRead => true;
+        public override bool CanSeek => true;
+        public override bool CanWrite => false;
+        public override long Length => _length;
+        public override long Position { get => _pos; set => _pos = value; }
+
+        public override void Flush() { }
+
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            if (_pos >= _length) return 0;
+            count = (int)Math.Min(count, _length - _pos);
+            for (var i = 0; i < count; i++)
+                unchecked
+                {
+                    buffer[offset + i] = (byte)((_pos + i) * 31 + _seed);
+                }
+            _pos += count;
+            return count;
+        }
+
+        public override long Seek(long offset, SeekOrigin origin)
+        {
+            _pos = origin switch
+            {
+                SeekOrigin.Begin => offset,
+                SeekOrigin.Current => checked(_pos + offset),
+                _ => _length + offset
+            };
+            return _pos;
+        }
+
+        public override void SetLength(long value) => throw new NotSupportedException();
+        public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
     }
 }
