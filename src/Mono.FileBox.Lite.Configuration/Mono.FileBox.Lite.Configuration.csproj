@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Mono.FileBox.Lite.Configuration</AssemblyName>
+    <RootNamespace>Mono.FileBox.Lite.Configuration</RootNamespace>
+    <Description>Mono.FileBox.Lite L2 configuration: options validation and change notification.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mono.FileBox.Lite.Abstractions\Mono.FileBox.Lite.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
