@@ -10,7 +10,7 @@ public enum StorageTier
 }
 
 /// <summary>A single indexed metadata entry for a stored object.</summary>
-public sealed class IndexEntry
+public sealed record IndexEntry
 {
     public string ContentHash { get; init; } = string.Empty;
     public string NamespaceId { get; init; } = string.Empty;
