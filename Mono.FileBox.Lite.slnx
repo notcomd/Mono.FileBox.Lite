@@ -16,5 +16,6 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Mono.FileBox.Lite.Index.Tests/Mono.FileBox.Lite.Index.Tests.csproj" />
+    <Project Path="tests/Mono.FileBox.Lite.Functional.Tests/Mono.FileBox.Lite.Functional.Tests.csproj" />
   </Folder>
 </Solution>

@@ -135,11 +135,22 @@ options.Storage.Chunking.Enabled = true;      // ChunkSizeBytes 默认 8 MiB
 
 ## 8. 测试现状
 
+两个 xUnit（net9.0）测试项目：
+
 - `tests/Mono.FileBox.Lite.Index.Tests`：
   - `IndexQueryTests`：前缀/标签/层级/状态/时间/大小、排序、命名空间隔离、游标分页稳定性。
   - `IndexMaintainerTests`：Verify 检出缺失块、Repair 清理孤儿、Rebuild 清空。
   - `EndToEndIndexPipelineTests`：经状态机 Put 写入索引 → `IIndexReader` 查询 → 状态同步到 `Available`、分页全量无重复。
-- 已验证：单测 51 ms 通过；解决方案 0 警告 0 错误。
+- `tests/Mono.FileBox.Lite.Functional.Tests`（完备功能，**36 通过**）：
+  - `StateMachineTests`：合法/非法转移、guard 拒绝、observer 成败语义、Purge 幂等。
+  - `StorageChunkingTests`：读写回环、去重、范围读、分块写块数与 manifest、跨块读取、小块走后整对象。
+  - `UseCasesLifecycleTests`：Put/Get、未知返回 NotFound、Delete→Purge 物理清除＋索引移除、Archive→Restore、分块对象全链路。
+  - `BackupTests`：全量→校验→恢复、增量清单合并、备份点查询。
+  - `ClusterTests`：一致哈希确定性/副本上限/重建、拓扑版本、容量水位（Normal/Full）。
+  - `ConfigurationTests`：合法接受、各类非法规则拒绝、变更通知。
+
+> 环境提示：本机 `dotnet test` 的 testhost 偶发卡住，先 `Stop-Process` 残留的
+> `testhost`/`vstest.console` 再跑；功能测试套件可稳定通过。
 
 ## 9. 已知限制 / Roadmap
 
