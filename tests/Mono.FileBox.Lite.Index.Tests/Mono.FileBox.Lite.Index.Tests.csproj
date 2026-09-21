@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>Mono.FileBox.Lite.Index.Tests</RootNamespace>
+    <AssemblyName>Mono.FileBox.Lite.Index.Tests</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Mono.FileBox.Lite.Abstractions\Mono.FileBox.Lite.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\Mono.FileBox.Lite.Index\Mono.FileBox.Lite.Index.csproj" />
+    <ProjectReference Include="..\..\src\Mono.FileBox.Lite.Storage\Mono.FileBox.Lite.Storage.csproj" />
+    <ProjectReference Include="..\..\src\Mono.FileBox.Lite.Subsystems\Mono.FileBox.Lite.Subsystems.csproj" />
+    <ProjectReference Include="..\..\src\Mono.FileBox.Lite.StateMachine\Mono.FileBox.Lite.StateMachine.csproj" />
+    <ProjectReference Include="..\..\src\Mono.FileBox.Lite.UseCases\Mono.FileBox.Lite.UseCases.csproj" />
+    <ProjectReference Include="..\..\src\Mono.FileBox.Lite.DependencyInjection\Mono.FileBox.Lite.DependencyInjection.csproj" />
+  </ItemGroup>
+
+</Project>
