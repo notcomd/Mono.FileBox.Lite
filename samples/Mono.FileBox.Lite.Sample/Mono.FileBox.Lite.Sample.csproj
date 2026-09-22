@@ -8,6 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>Mono.FileBox.Lite.Sample</AssemblyName>
     <RootNamespace>Mono.FileBox.Lite.Sample</RootNamespace>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>

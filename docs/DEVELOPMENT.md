@@ -76,6 +76,18 @@ dotnet run --project samples/Mono.FileBox.Lite.Sample/Mono.FileBox.Lite.Sample.c
 dotnet test tests/Mono.FileBox.Lite.Index.Tests/Mono.FileBox.Lite.Index.Tests.csproj -c Release
 ```
 
+打包为 NuGet（产物输出到 `artifacts/packages/`，已列入 `.gitignore`）：
+
+```bash
+# 打包全部 L0–L4 库项目为 nupkg（每个 AssemblyName 一个包；示例/测试已 IsPackable=false）
+dotnet pack Mono.FileBox.Lite.slnx -c Release -o artifacts/packages
+# 指定版本（默认在 Directory.Build.props 用 PackageVersion=1.0.0）
+dotnet pack Mono.FileBox.Lite.slnx -c Release -o artifacts/packages -p:PackageVersion=1.0.1
+```
+
+> 说明：`Directory.Build.props` 集中提供 NuGet 元数据（版本/Authors/License MIT/仓库 URL/标签）与
+> XML 文档生成；`Mono.FileBox.Lite.DependencyInjection` 包自动依赖其余 9 个库包 + Microsoft.Extensions.DependencyInjection。
+
 > 注意：首次 `dotnet test` 的 testhost 启动较慢；若遇到卡住，先杀掉残留的
 > `testhost.exe`/`vstest.console` 进程再重跑。单测在 51 ms 内通过。
 
