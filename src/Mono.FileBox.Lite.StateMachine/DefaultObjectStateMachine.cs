@@ -11,6 +11,16 @@ namespace Mono.FileBox.Lite.StateMachine;
 /// resolving the transition for (trigger, currentState), running guards, before
 /// observers, actions, committing the state, persisting it, then after observers.
 /// </summary>
+/// <remarks>
+/// <b>并发语义</b>：一次 <see cref="FireAsync"/> 只操作传入的单个 <see cref="IObjectContext"/>，
+/// 类本身不持有对象级可变状态，因此
+/// <list type="bullet">
+/// <item>不同 content hash 的对象可并发触发转移（跨对象并行）；</item>
+/// <item>同一对象的并发触发是否串行取决于
+/// <see cref="Mono.FileBox.Lite.Abstractions.Subsystems.IDistributedLock"/> 实现 ——
+/// 默认 <c>NoOpDistributedLock</c> 恒放行，即默认不强制同一对象串行，靠内容寻址幂等兜底。</item>
+/// </list>
+/// </remarks>
 public sealed class DefaultObjectStateMachine : IObjectStateMachine
 {
     private readonly TransitionRegistry _registry;

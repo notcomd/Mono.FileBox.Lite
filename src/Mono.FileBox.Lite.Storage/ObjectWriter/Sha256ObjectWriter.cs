@@ -24,6 +24,11 @@ namespace Mono.FileBox.Lite.Storage.ObjectWriter;
 /// or spooled to a temp file (non-seekable) and never fully buffered.
 /// Also acts as the <see cref="ITransitionAction"/> for the <c>Put</c> transition.
 /// </summary>
+/// <remarks>
+/// <b>并发语义</b>：写入器本身无共享可变状态；每次 <see cref="WriteAsync"/> 只使用传入的流与
+/// 写选项，并临时申请（<c>ArrayPool</c>）缓冲。不同内容对象的并发写入落不同物理块，天然并行安全；
+/// 相同内容的并发写入通过全局去重命中既有块，幂等。
+/// </remarks>
 public sealed class Sha256ObjectWriter : IObjectWriter, ITransitionAction
 {
     private readonly IDiskSelector _selector;

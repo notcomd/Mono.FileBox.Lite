@@ -7,6 +7,11 @@ namespace Mono.FileBox.Lite.Index.Storage;
 /// In-memory entry store. Entries are held by content hash with a namespace index for
 /// listing. This is the lightweight default for the Lite engine (no external database).
 /// </summary>
+/// <remarks>
+/// <b>并发语义</b>：基于 <see cref="ConcurrentDictionary{TKey,TValue}"/>（按 content hash），
+/// 不同对象的 <see cref="PutAsync"/>/<see cref="DeleteAsync"/> 可在多线程并行执行；同一对象的
+/// 写是原子的字典更新。
+/// </remarks>
 public sealed class InMemoryEntryStore : IEntryStore
 {
     private readonly ConcurrentDictionary<string, IndexEntry> _entries =

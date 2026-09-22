@@ -176,6 +176,12 @@ public static class Program
         public double AvgCpuPct => _cpuSamples == 0 ? 0 : _cpuSum / _cpuSamples;
     }
 
+    /// <summary>
+/// 并发压测：以固定 <paramref name="concurrency"/>（示例为 20）用
+/// <c>Parallel.ForEachAsync</c> 并发上传 <paramref name="files"/> 个随机大小对象
+/// （1–20 MB）。用于验证引擎在单进程多线程（线程池）并发调用下：不同对象并行、无失败/
+/// 冲突、去重哈希唯一、全部入索引。
+/// </summary>
     private static async Task<int> ConcurrentUploadAsync(
         IServiceProvider provider, int files, int concurrency)
     {
@@ -187,23 +193,27 @@ public static class Program
         var metric = new Metric();
         var sampler = Task.Run(() => SampleLoop(process, metric, cts.Token));
 
-        const int size = 1024; // bytes per small file
+        const int minSize = 1024 * 1024;          // 1 MB
+        const int maxSize = 20 * 1024 * 1024;     // 20 MB
         var hashes = new ConcurrentQueue<string>();
         var errors = new ConcurrentQueue<string>();
+        var totalBytes = 0L;
         var stopwatch = Stopwatch.StartNew();
 
         await Parallel.ForEachAsync(Enumerable.Range(0, files),
             new ParallelOptions { MaxDegreeOfParallelism = concurrency, CancellationToken = cts.Token },
             async (i, ct) =>
             {
-                var data = SmallContent(i, size);
+                var size = Random.Shared.Next(minSize, maxSize + 1); // random in [1..20] MB
+                var data = RandomContent(i, size);
+                Interlocked.Add(ref totalBytes, size);
                 using var content = new MemoryStream(data);
                 var res = await put.ExecuteAsync(new PutObjectCommand
                 {
                     NamespaceId = "ns1",
-                    ObjectKey = $"/small/{i}.txt",
+                    ObjectKey = $"/small/{i}.bin",
                     Content = content,
-                    ContentType = "text/plain"
+                    ContentType = "application/octet-stream"
                 }, ct);
                 if (res.Succeeded) hashes.Enqueue(res.ContentHash);
                 else errors.Enqueue(res.Error ?? "unknown");
@@ -214,10 +224,12 @@ public static class Program
         await sampler;
 
         var secs = Math.Max(stopwatch.Elapsed.TotalSeconds, 1e-9);
-        Console.WriteLine("-- Concurrent small-file upload --");
-        Console.WriteLine($"  files={files} size={size}B concurrency={concurrency} " +
+        var totalMiB = totalBytes / (1024.0 * 1024);
+        Console.WriteLine("-- Concurrent random-size upload (1–20 MB) --");
+        Console.WriteLine($"  files={files} size=[{minSize / (1024 * 1024)}..{maxSize / (1024 * 1024)}] MB " +
+                          $"(total={totalMiB:F0} MiB) concurrency={concurrency} " +
                           $"time={stopwatch.Elapsed.TotalSeconds:F2}s " +
-                          $"({files / secs:F0} files/s, {files * size / (1024.0 * 1024) / secs:F1} MiB/s)");
+                          $"({files / secs:F0} files/s, {totalMiB / secs:F1} MiB/s)");
         Console.WriteLine($"  succeeded={hashes.Count} failed={errors.Count} " +
                           $"distinctHashes={hashes.Distinct().Count()}");
 
@@ -234,12 +246,11 @@ public static class Program
         return errors.IsEmpty ? 0 : 1;
     }
 
-    private static byte[] SmallContent(int i, int size)
+    private static byte[] RandomContent(int i, int size)
     {
         var bytes = new byte[size];
         for (var k = 0; k < size; k++)
         {
-            // 64-bit mix so 500+ files each carry unique bytes (no dedup collision).
             var v = (long)i * 2654435761L + (long)k * 1103515245L + 12345;
             bytes[k] = (byte)((uint)v >> 24);
         }

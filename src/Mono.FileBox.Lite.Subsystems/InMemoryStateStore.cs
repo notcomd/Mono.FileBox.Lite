@@ -8,6 +8,11 @@ using Mono.FileBox.Lite.Abstractions.Subsystems;
 namespace Mono.FileBox.Lite.Subsystems;
 
 /// <summary>In-memory state store with optimistic-concurrency conflict reporting.</summary>
+    /// <remarks>
+    /// <b>并发语义</b>：基于 <see cref="ConcurrentDictionary{TKey,TValue}"/>，对不同 content hash
+    /// 的读写可在多个线程并行；对同一 hash 的 <see cref="SaveAsync"/> 使用原子 <c>AddOrUpdate</c>
+    /// 递增版本号，作为乐观并发冲突检测的基础。引擎为单进程嵌入库，无自身后台线程。
+    /// </remarks>
 public sealed class InMemoryStateStore : IStateStore
 {
     private readonly ConcurrentDictionary<string, (ObjectState State, long Version)> _states = new();

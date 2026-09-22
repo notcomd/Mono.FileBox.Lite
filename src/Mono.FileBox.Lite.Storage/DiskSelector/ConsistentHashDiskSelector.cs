@@ -9,6 +9,12 @@ namespace Mono.FileBox.Lite.Storage.DiskSelector;
 /// points on a ring; content hashes are mapped to the nearest pool along the ring.
 /// Falls back to the highest-priority enabled pool when the ring is empty.
 /// </summary>
+/// <remarks>
+/// <b>并发语义</b>：一致性哈希环由 <c>lock</c> 保护的
+/// <see cref="SortedDictionary{TKey,TValue}"/> 维护；并发上传时各对象执行各自独立的
+/// <see cref="SelectForWriteAsync"/>/<see cref="SelectForReadAsync"/>（读环加锁，池选择局部串行），
+/// 不同对象互不阻塞、可并行。
+/// </remarks>
 public sealed class ConsistentHashDiskSelector : IDiskSelector
 {
     private readonly List<PoolOptions> _pools;

@@ -9,6 +9,10 @@ namespace Mono.FileBox.Lite.Subsystems.Lifecycle;
 /// the configured <see cref="ILifecyclePolicy"/> permits, attempts an <c>Archive</c> or
 /// <c>Expire</c> transition. Runs as part of the host's scheduled scan loop.
 /// </summary>
+/// <remarks>
+/// <b>并发语义</b>：调度器自身不启动任何线程；它是宿主（托管进程）在某定时循环里调用的
+/// <see cref="ScanAsync"/> 一次性扫描。因此并发度由宿主决定；引擎是嵌入宿主进程的库，无常驻后台线程。
+/// </remarks>
 public sealed class DefaultLifecycleScheduler : ILifecycleScheduler
 {
     private readonly IIndexReader _reader;
