@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Security.Cryptography;
 using Microsoft.Extensions.DependencyInjection;
 using Mono.FileBox.Lite.Abstractions;
 using Mono.FileBox.Lite.Abstractions.Configuration;
@@ -243,7 +244,80 @@ public static class Program
         Console.WriteLine($"  memory peak workingSet={FormatBytes(metric.PeakWorkingSet)} " +
                           $"CPU peak={metric.PeakCpuPct:F1}% avg={metric.AvgCpuPct:F1}%");
 
-        return errors.IsEmpty ? 0 : 1;
+        // 9. Concurrent downloads (simulate many users reading file content).
+        var downloadOk = await ConcurrentDownloadAsync(provider, hashes.ToArray(), concurrency);
+
+        return errors.IsEmpty && downloadOk == 0 ? 0 : 1;
+    }
+
+    /// <summary>
+    /// 并发下载：模拟多个用户以固定并发读取已上传的对象，并对每个返回流重算 SHA-256 与存储
+    /// 的 content hash 比对，校验读取正确性（含分块对象的跨块拼接）。
+    /// </summary>
+    private static async Task<int> ConcurrentDownloadAsync(
+        IServiceProvider provider, string[] hashes, int concurrency)
+    {
+        var get = provider.GetRequiredService<IGetObjectUseCase>();
+        var process = Process.GetCurrentProcess();
+
+        var cts = new CancellationTokenSource();
+        var metric = new Metric();
+        var sampler = Task.Run(() => SampleLoop(process, metric, cts.Token));
+
+        var ok = 0;
+        var failed = 0;
+        long totalBytes = 0;
+        var stopwatch = Stopwatch.StartNew();
+
+        await Parallel.ForEachAsync(hashes,
+            new ParallelOptions { MaxDegreeOfParallelism = concurrency, CancellationToken = cts.Token },
+            async (hash, ct) =>
+            {
+                var res = await get.ExecuteAsync(new GetObjectCommand
+                {
+                    ContentHash = hash,
+                    NamespaceId = "ns1"
+                }, ct);
+                if (res.Content is null)
+                {
+                    Interlocked.Increment(ref failed);
+                    return;
+                }
+                using var stream = res.Content;
+                var sha = ComputeSha256(stream);
+                Interlocked.Add(ref totalBytes, stream.Length);
+                if (string.Equals(sha, hash, StringComparison.OrdinalIgnoreCase))
+                    Interlocked.Increment(ref ok);
+                else
+                    Interlocked.Increment(ref failed);
+            }).ConfigureAwait(false);
+        stopwatch.Stop();
+
+        cts.Cancel();
+        await sampler;
+
+        var secs = Math.Max(stopwatch.Elapsed.TotalSeconds, 1e-9);
+        var totalMiB = totalBytes / (1024.0 * 1024);
+        Console.WriteLine("-- Concurrent downloads (multi-user reads) --");
+        Console.WriteLine($"  reads={hashes.Length} concurrency={concurrency} " +
+                          $"time={stopwatch.Elapsed.TotalSeconds:F2}s " +
+                          $"({totalMiB / secs:F1} MiB/s, {hashes.Length / secs:F0} reads/s)");
+        Console.WriteLine($"  sha256-verified={ok} failed={failed} (total {totalMiB:F0} MiB read)");
+        Console.WriteLine($"  memory peak workingSet={FormatBytes(metric.PeakWorkingSet)} " +
+                          $"CPU peak={metric.PeakCpuPct:F1}% avg={metric.AvgCpuPct:F1}%");
+
+        return failed == 0 ? 0 : 1;
+    }
+
+    private static string ComputeSha256(Stream stream)
+    {
+        using var sha = SHA256.Create();
+        var buffer = new byte[81920];
+        int read;
+        while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
+            sha.TransformBlock(buffer, 0, read, buffer, 0);
+        sha.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
+        return BitConverter.ToString(sha.Hash!).Replace("-", "").ToLowerInvariant();
     }
 
     private static byte[] RandomContent(int i, int size)
