@@ -111,6 +111,12 @@ options.Storage.Chunking.Enabled = true;      // ChunkSizeBytes 默认 8 MiB
 - `IIndexReader`（Index）由 `QueryPlanner`（7 个 Provider 挑驱动扫描）＋`QueryExecutor`（过滤、稳定排序、游标分页）组成。
 - `IndexMaintainer`：VerifyAsync 以物理块为权威检出缺失/孤儿；RepairAsync 清理；RebuildAsync 重建。
 
+本地索引持久化（保留 `IEntryStore` DB 接口，后续可换 SQLite 实现）：
+
+- `JsonFileIndexStore`（`IEntryStore`）：单一 JSON 文档为权威，改动整体原子重写（临时文件＋移动）；读取按需解析，非常适合低频/冷数据，内存极省。
+- `HotCachingIndexStore`（装饰器，包在任一种 `IEntryStore` 之上）：按读取计数把高频条目**载入内存**（`PromotionThreshold` 后提升），命中即返回、不再解析索引文档；超出 `Capacity` 按 LRU 淘汰；热点集合落到旁路 `.hot` 文件，冷启动直接预热，同样免解析。
+- 装配：`IndexBuilder.UseJsonFileEntryStore(path)` 一行切换（默认仍为内存实现）。
+
 ### 5.4 备份 / 集群 / 配置（L2）
 
 - 备份：共享块池 + 全量/增量（增量 = 父清单 ∪ 新增）、manifest、恢复、Verify；目标支持本地目录与远端（S3 兼容占位）。
@@ -164,7 +170,7 @@ options.Storage.Chunking.Enabled = true;      // ChunkSizeBytes 默认 8 MiB
 
 ## 9. 已知限制 / Roadmap
 
-- 索引采用内存实现（`InMemoryEntryStore` / `InMemoryOrderedKeyValueStore`），未接 SQLite 持久化。
+- 索引默认内存实现（`InMemoryEntryStore`）；已提供可选本地 JSON 文档持久化（`JsonFileIndexStore` + 热点旁路），但未接 SQLite。
 - 备份 GC（`IBackupGarbageCollector`）为 NoOp，块回收需扫描所有清单引用。
 - 分块为「对象私有」，**未实现跨对象共享块**与块级引用计数（有意保留为后续增强）。
 - `ConsistentHashRing` 虚拟节点、再均衡带宽整形、索引分片在线迁移、S3-backed `IBackupTarget` 等列为 Roadmap。

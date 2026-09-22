@@ -9,6 +9,7 @@ using Mono.FileBox.Lite.Abstractions.Index;
 using Mono.FileBox.Lite.Abstractions.Storage;
 using Mono.FileBox.Lite.Abstractions.Subsystems;
 using Mono.FileBox.Lite.Abstractions.UseCases;
+using Mono.FileBox.Lite.Index.Storage;
 
 namespace Mono.FileBox.Lite.DependencyInjection.Builders;
 
@@ -22,6 +23,20 @@ public sealed class IndexBuilder
     { _services.AddSingleton<IOrderedKeyValueStore, T>(); return this; }
     public IndexBuilder UseEntryStore<T>() where T : class, IEntryStore
     { _services.AddSingleton<IEntryStore, T>(); return this; }
+
+    /// <summary>
+    /// Switches the entry store to a JSON-document-backed store wrapped by a hot-index
+    /// cache. The document file at <paramref name="path"/> is authoritative; the hot set is
+    /// persisted to a sidecar file (hot+file suffix unless provided via <paramref name="hot"/>).
+    /// Keeps the <see cref="IEntryStore"/> DB interface intact for later SQLite/etc. swaps.
+    /// </summary>
+    public IndexBuilder UseJsonFileEntryStore(string path, HotIndexOptions? hot = null)
+    {
+        hot ??= new HotIndexOptions { HotFilePath = path + ".hot" };
+        _services.AddSingleton<IEntryStore>(_ => new HotCachingIndexStore(new JsonFileIndexStore(path), hot));
+        return this;
+    }
+
     public IndexBuilder UseCursorCodec<T>() where T : class, ICursorCodec
     { _services.AddSingleton<ICursorCodec, T>(); return this; }
     public IndexBuilder AddProvider<T>() where T : class, IIndexProvider
