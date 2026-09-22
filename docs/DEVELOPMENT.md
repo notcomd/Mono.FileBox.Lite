@@ -52,6 +52,16 @@ Mono.FileBox.Lite.slnx                    # 解决方案
 
 依赖约束：**分层单向向下**（L4→L3→L2→L1→L0，L0 零依赖），采用 `ProjectReference` 严格实现。
 
+### 3.1 代码组织规约（单文件单类型）
+
+每个 `.cs` 文件**只包含恰好一个顶层类型**（class / interface / record / enum / 静态类）。
+
+- **命名**：文件名 = 顶层类型名 + `.cs`；放与该类型所在目录一致的子目录，保持命名空间映射不变（例如 `IObjectWriter` 只在 `Abstractions/Subsystems/IObjectWriter.cs`）。
+- **文档注释**：每个文件顶部加一行文件级注释说明该文件（类型）的用途；类型本身的 `/// <summary>` 文档注释原样保留。
+- **可访问性**：`public` 与 `internal` 顶层类型各自独立成文件；仅由**单一类型专用**的 `private` 嵌套辅助类（如 `Subscription`、`ReadOnlyContext`、`IndexEntryBuilder`）可保留在宿主文件内，属实现细节。
+- **合法性清单**：新增类型时按 §15.8 扩展检查清单落地，同时满足本规约（一个文件一个类型、补齐文件级与类型级 doc 注释）。
+- 例外（允许同文件多类型）：仅为局部使用的 `enum`/辅助类的 `private` 嵌套成员；其余一律拆分。
+
 ## 4. 构建 / 运行 / 测试
 
 ```bash
