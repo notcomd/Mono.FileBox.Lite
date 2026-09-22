@@ -1,0 +1,17 @@
+// File-level: defines a single registered transition, grouping trigger, source/target
+// states and the guard/action/observer component lists used by the registry.
+
+using Mono.FileBox.Lite.Abstractions;
+
+namespace Mono.FileBox.Lite.StateMachine;
+
+/// <summary>A single registered transition: trigger, source/target states and component lists.</summary>
+public sealed class TransitionRegistration
+{
+    public ObjectTrigger Trigger { get; set; }
+    public ObjectState From { get; set; }
+    public ObjectState To { get; set; }
+    public List<Type> Guards { get; } = new();
+    public List<Type> Actions { get; } = new();
+    public List<Type> Observers { get; } = new();
+}

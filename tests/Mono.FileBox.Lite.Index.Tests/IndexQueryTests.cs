@@ -51,7 +51,7 @@ public class IndexQueryTests
             States = new[] { ObjectState.Available }
         }, None);
 
-        Assert.Equal(1, page.Items.Count);
+        Assert.Single(page.Items);
         Assert.Equal("/logs/old.log", page.Items[0].ObjectKey);
     }
 

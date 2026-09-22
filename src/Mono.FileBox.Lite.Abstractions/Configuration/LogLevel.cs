@@ -1,0 +1,5 @@
+// 本文件包含类型 LogLevel：日志严重级别。
+namespace Mono.FileBox.Lite.Abstractions.Configuration;
+
+/// <summary>Log severity level.</summary>
+public enum LogLevel { Trace, Debug, Information, Warning, Error, Critical }

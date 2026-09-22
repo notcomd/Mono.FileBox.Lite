@@ -5,6 +5,7 @@ using Mono.FileBox.Lite.Abstractions.UseCases;
 
 namespace Mono.FileBox.Lite.UseCases;
 
+// File: PutObjectUseCase — write-path use case for storing an object.
 /// <summary>
 /// Put pipeline: <c>Put → Index → Audit → Publish</c>. On failure the completed
 /// transitions are rolled back in reverse order (leaving the physical block intact).
@@ -62,27 +63,5 @@ public sealed class PutObjectUseCase : IPutObjectUseCase
         if (cmd.Tags is not null) ctx.Items[ObjectContextKeys.Tags] = cmd.Tags;
         if (cmd.Attributes is not null) ctx.Items[ObjectContextKeys.Attributes] = cmd.Attributes;
         return ctx;
-    }
-}
-
-/// <summary>
-/// Reverses completed put transitions. Only the index entry is removed (leaving the
-/// physical block intact), mirroring the documented rollback to <c>Stored</c>.
-/// </summary>
-public sealed class PutObjectRollback : IPutObjectRollback
-{
-    private readonly IIndexWriter? _index;
-
-    public PutObjectRollback(IIndexWriter? index = null) => _index = index;
-
-    public async Task RollbackAsync(IEnumerable<ObjectTrigger> completed, IObjectContext ctx, CancellationToken ct)
-    {
-        if (_index is null || string.IsNullOrWhiteSpace(ctx.ContentHash)) return;
-
-        if (completed.Contains(ObjectTrigger.Index)
-            || completed.Contains(ObjectTrigger.Audit))
-        {
-            await _index.RemoveAsync(ctx.ContentHash, ct).ConfigureAwait(false);
-        }
     }
 }

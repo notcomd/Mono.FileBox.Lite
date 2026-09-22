@@ -1,3 +1,4 @@
+// QueryExecutor.cs — executes a query plan with filtering, sorting, and pagination.
 using Mono.FileBox.Lite.Abstractions.Index;
 using Mono.FileBox.Lite.Abstractions.Subsystems;
 using Mono.FileBox.Lite.Index.Storage;
@@ -120,20 +121,4 @@ public sealed class QueryExecutor : IQueryExecutor
                 return a.CreatedAt.CompareTo(b.CreatedAt);
         }
     }
-}
-
-/// <summary>Default read path: plan then execute.</summary>
-public sealed class DefaultIndexReader : IIndexReader
-{
-    private readonly IQueryPlanner _planner;
-    private readonly IQueryExecutor _executor;
-
-    public DefaultIndexReader(IQueryPlanner planner, IQueryExecutor executor)
-    {
-        _planner = planner;
-        _executor = executor;
-    }
-
-    public Task<Page<IndexEntry>> QueryAsync(IndexQuery query, CancellationToken ct)
-        => _executor.ExecuteAsync(_planner.Plan(query), ct);
 }

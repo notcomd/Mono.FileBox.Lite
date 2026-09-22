@@ -1,3 +1,7 @@
+// File-level documentation: Index writer persisting IndexEntry blobs through the L0
+// entry store and mirroring them into the ordered key/value store. The private nested
+// IndexEntryBuilder helper is retained here (internal, nested in its host type).
+// Extracted from the original multi-type Index/DefaultIndexWriter.cs.
 using Mono.FileBox.Lite.Abstractions;
 using Mono.FileBox.Lite.Abstractions.Index;
 using Mono.FileBox.Lite.Abstractions.Storage;
@@ -113,34 +117,5 @@ public sealed class DefaultIndexWriter : IIndexWriter, ITransitionAction
             { var d = _e.Attributes.ToDictionary(kv => kv.Key, kv => kv.Value); foreach (var k in keys) d.Remove(k); _e = _e with { Attributes = d }; return this; }
 
         public IndexEntry Build() => _e;
-    }
-}
-
-/// <summary>
-/// Observer that keeps the index entry's <see cref="IndexEntry.State"/> and
-/// tier in sync as the object moves through later lifecycle transitions.
-/// </summary>
-public sealed class IndexStateSyncObserver : ITransitionObserver
-{
-    private readonly IIndexWriter _writer;
-
-    public IndexStateSyncObserver(IIndexWriter writer) => _writer = writer;
-
-    public Task OnBeforeAsync(ObjectTrigger t, IObjectContext ctx, CancellationToken ct)
-        => Task.CompletedTask;
-
-    public Task OnAfterAsync(ObjectTrigger t, IObjectContext ctx, CancellationToken ct)
-    {
-        if (string.IsNullOrWhiteSpace(ctx.ContentHash)) return Task.CompletedTask;
-
-        var tier = ctx.Items.TryGetValue(ObjectContextKeys.WriteOptions, out var w) && w is WriteOptions wo
-            ? wo.Tier : (StorageTier?)null;
-
-        return _writer.UpdateAsync(ctx.ContentHash, new IndexUpdate
-        {
-            State = ctx.CurrentState,
-            Tier = tier,
-            ModifiedAt = DateTimeOffset.UtcNow
-        }, ct);
     }
 }

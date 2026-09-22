@@ -1,21 +1,10 @@
+// File-level: default IObjectStateMachine implementation that fires a trigger by
+// resolving the transition, running guards/observers/actions, committing and persisting state.
+
 using Microsoft.Extensions.DependencyInjection;
 using Mono.FileBox.Lite.Abstractions;
 
 namespace Mono.FileBox.Lite.StateMachine;
-
-/// <summary>Thrown when a transition guard rejects the transition and the machine is configured to throw.</summary>
-public sealed class GuardDeniedException : InvalidOperationException
-{
-    public GuardDeniedException(ObjectTrigger trigger, ObjectState from)
-        : base($"Guard denied transition '{trigger}' from '{from}'.")
-    {
-        Trigger = trigger;
-        From = from;
-    }
-
-    public ObjectTrigger Trigger { get; }
-    public ObjectState From { get; }
-}
 
 /// <summary>
 /// Default implementation of <see cref="IObjectStateMachine"/>. Fires a trigger by:
@@ -149,12 +138,4 @@ public sealed class DefaultObjectStateMachine : IObjectStateMachine
         => _services.GetService(type)
            ?? throw new InvalidOperationException(
                $"Service '{type.FullName}' is referenced by a transition but is not registered for dependency injection.");
-}
-
-internal static class ServiceCollectionFallbackExtensions
-{
-    public static void AddIfMissing<T>(this ICollection<T> list, T item)
-    {
-        if (!list.Contains(item)) list.Add(item);
-    }
 }
