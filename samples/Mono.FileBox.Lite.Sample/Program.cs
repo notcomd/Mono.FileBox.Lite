@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Mono.FileBox.Lite.Abstractions;
@@ -104,7 +105,18 @@ public static class Program
             }, CancellationToken.None);
             Console.WriteLine($"  index verify   : matched={page.Items.Count} (content-addressed)");
 
+            // 8. Concurrent small-file upload (fixed concurrency).
+            var concurrentFiles = long.TryParse(
+                Environment.GetEnvironmentVariable("MONOFILEBOX_CONCURRENT_FILES"), out var cf)
+                ? (int)cf : 200;
+            var concurrentOk = await ConcurrentUploadAsync(provider, concurrentFiles, concurrency: 20);
+
             Console.WriteLine();
+            if (concurrentOk != 0)
+            {
+                Console.WriteLine("Sample failed during concurrent upload.");
+                return 1;
+            }
             Console.WriteLine("Sample completed successfully.");
             return 0;
         }
@@ -162,6 +174,76 @@ public static class Program
         public long PeakManaged { get { lock (_lock) return _peakManaged; } }
         public double PeakCpuPct { get { lock (_lock) return _peakCpu; } }
         public double AvgCpuPct => _cpuSamples == 0 ? 0 : _cpuSum / _cpuSamples;
+    }
+
+    private static async Task<int> ConcurrentUploadAsync(
+        IServiceProvider provider, int files, int concurrency)
+    {
+        var put = provider.GetRequiredService<IPutObjectUseCase>();
+        var index = provider.GetRequiredService<IIndexReader>();
+        var process = Process.GetCurrentProcess();
+
+        var cts = new CancellationTokenSource();
+        var metric = new Metric();
+        var sampler = Task.Run(() => SampleLoop(process, metric, cts.Token));
+
+        const int size = 1024; // bytes per small file
+        var hashes = new ConcurrentQueue<string>();
+        var errors = new ConcurrentQueue<string>();
+        var stopwatch = Stopwatch.StartNew();
+
+        await Parallel.ForEachAsync(Enumerable.Range(0, files),
+            new ParallelOptions { MaxDegreeOfParallelism = concurrency, CancellationToken = cts.Token },
+            async (i, ct) =>
+            {
+                var data = SmallContent(i, size);
+                using var content = new MemoryStream(data);
+                var res = await put.ExecuteAsync(new PutObjectCommand
+                {
+                    NamespaceId = "ns1",
+                    ObjectKey = $"/small/{i}.txt",
+                    Content = content,
+                    ContentType = "text/plain"
+                }, ct);
+                if (res.Succeeded) hashes.Enqueue(res.ContentHash);
+                else errors.Enqueue(res.Error ?? "unknown");
+            }).ConfigureAwait(false);
+        stopwatch.Stop();
+
+        cts.Cancel();
+        await sampler;
+
+        var secs = Math.Max(stopwatch.Elapsed.TotalSeconds, 1e-9);
+        Console.WriteLine("-- Concurrent small-file upload --");
+        Console.WriteLine($"  files={files} size={size}B concurrency={concurrency} " +
+                          $"time={stopwatch.Elapsed.TotalSeconds:F2}s " +
+                          $"({files / secs:F0} files/s, {files * size / (1024.0 * 1024) / secs:F1} MiB/s)");
+        Console.WriteLine($"  succeeded={hashes.Count} failed={errors.Count} " +
+                          $"distinctHashes={hashes.Distinct().Count()}");
+
+        var page = await index.QueryAsync(new IndexQuery
+        {
+            NamespaceId = "ns1",
+            KeyPrefix = "/small/",
+            Page = new PageRequest { Size = 100000 }
+        }, CancellationToken.None);
+        Console.WriteLine($"  index matched(/small/)={page.Items.Count}");
+        Console.WriteLine($"  memory peak workingSet={FormatBytes(metric.PeakWorkingSet)} " +
+                          $"CPU peak={metric.PeakCpuPct:F1}% avg={metric.AvgCpuPct:F1}%");
+
+        return errors.IsEmpty ? 0 : 1;
+    }
+
+    private static byte[] SmallContent(int i, int size)
+    {
+        var bytes = new byte[size];
+        for (var k = 0; k < size; k++)
+        {
+            // 64-bit mix so 500+ files each carry unique bytes (no dedup collision).
+            var v = (long)i * 2654435761L + (long)k * 1103515245L + 12345;
+            bytes[k] = (byte)((uint)v >> 24);
+        }
+        return bytes;
     }
 
     private static string ResolvePoolRoot(IServiceProvider provider)
