@@ -1,7 +1,7 @@
 // 本文件包含类型 QueryPlan：已执行的查询计划——一个驱动扫描加一组有序过滤器。
 namespace Mono.FileBox.Lite.Abstractions.Index;
 
-/// <summary>An executed query plan: one driving scan plus an ordered set of filters.</summary>
+/// <summary>An executed query plan: one driving scan plus an ordered set of filters. 中文翻译：已构造的查询计划：一个驱动扫描加一组有序过滤器。</summary>
 public sealed class QueryPlan
 {
     public string NamespaceId { get; init; } = string.Empty;

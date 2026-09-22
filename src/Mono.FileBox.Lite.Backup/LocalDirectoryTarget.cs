@@ -8,6 +8,7 @@ namespace Mono.FileBox.Lite.Backup.Targets;
 /// Backup target rooted at a directory on the local filesystem.
 /// Layout: <c>{root}/blocks/...</c> for the shared block pool and
 /// <c>{root}/backups/{id}/manifest.json</c> for backup points.
+/// 中文翻译：以本地文件系统上的某个目录为根目录的备份目标。共享块池布局为 blocks/{root}/blocks/...，备份点布局为 backups/{id}/manifest.json。
 /// </summary>
 public sealed class LocalDirectoryTarget : IBackupTarget
 {

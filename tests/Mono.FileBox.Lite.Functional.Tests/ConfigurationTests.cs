@@ -4,7 +4,8 @@ using Mono.FileBox.Lite.Configuration;
 
 namespace Mono.FileBox.Lite.Functional.Tests;
 
-/// <summary>Configuration model validation and change notification.</summary>
+/// <summary>Configuration model validation and change notification.
+/// 中文翻译：配置模型校验与变更通知。</summary>
 public class ConfigurationTests
 {
     [Fact]

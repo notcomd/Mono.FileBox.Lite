@@ -1,7 +1,7 @@
 // 本文件包含类型 DeduplicationMode：去重策略。
 namespace Mono.FileBox.Lite.Abstractions.Storage;
 
-/// <summary>Deduplication strategy.</summary>
+/// <summary>Deduplication strategy. 中文翻译：去重策略（全局/命名空间内/禁用）。</summary>
 public enum DeduplicationMode
 {
     /// <summary>Deduplicate against all existing content hash keys.</summary>

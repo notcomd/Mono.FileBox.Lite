@@ -4,7 +4,9 @@ using Mono.FileBox.Lite.Abstractions.Index;
 
 namespace Mono.FileBox.Lite.Index.Providers;
 
-/// <summary>Size B-tree provider.</summary>
+/// <summary>Size B-tree provider.
+/// 中文翻译：大小(Size)的 B 树索引提供方。
+/// </summary>
 public sealed class SizeIndexProvider : SingleKindProvider
 {
     private readonly IEntryStore _store;

@@ -4,6 +4,7 @@ namespace Mono.FileBox.Lite.Abstractions.Storage;
 /// <summary>
 /// Chooses which disk/pool a content hash is written to or read from, and reports
 /// pool-level health and capacity.
+/// 中文翻译：为内容哈希选择写入或读取的目标磁盘/池，并汇报池级健康与容量信息。
 /// </summary>
 public interface IDiskSelector
 {

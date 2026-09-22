@@ -2,6 +2,7 @@ namespace Mono.FileBox.Lite.Abstractions;
 
 /// <summary>
 /// Triggers that drive transitions on the object lifecycle state machine.
+/// 中文翻译：驱动对象生命周期状态机转换的触发器集合。
 /// </summary>
 public enum ObjectTrigger
 {

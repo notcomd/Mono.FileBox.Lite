@@ -1,7 +1,7 @@
 // 本文件包含类型 AttributeRange：数值属性值的闭区间范围。
 namespace Mono.FileBox.Lite.Abstractions.Index;
 
-/// <summary>Inclusive range over a numeric attribute value.</summary>
+/// <summary>Inclusive range over a numeric attribute value. 中文翻译：数值属性值的闭区间范围。</summary>
 public sealed class AttributeRange
 {
     public string AttributeName { get; init; } = string.Empty;

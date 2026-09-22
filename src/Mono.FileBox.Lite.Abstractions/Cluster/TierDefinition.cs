@@ -3,7 +3,7 @@ using Mono.FileBox.Lite.Abstractions.Index;
 
 namespace Mono.FileBox.Lite.Abstractions.Cluster;
 
-/// <summary>Definition of a storage tier.</summary>
+/// <summary>Definition of a storage tier. 中文翻译：存储层的定义（映射到池、优先级、容量限制等）。</summary>
 public sealed class TierDefinition
 {
     public StorageTier Tier { get; init; }

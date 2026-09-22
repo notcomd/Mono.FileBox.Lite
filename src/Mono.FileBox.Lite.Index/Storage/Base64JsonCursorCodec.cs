@@ -5,7 +5,9 @@ using Mono.FileBox.Lite.Abstractions.Index;
 
 namespace Mono.FileBox.Lite.Index.Storage;
 
-/// <summary>Encodes/decodes a <see cref="PageCursor"/> as base64 JSON.</summary>
+/// <summary>Encodes/decodes a <see cref="PageCursor"/> as base64 JSON.
+/// 中文翻译：把 <see cref="PageCursor"/> 编码/解码为 base64 JSON。
+/// </summary>
 public sealed class Base64JsonCursorCodec : ICursorCodec
 {
     public string Encode(object cursor)

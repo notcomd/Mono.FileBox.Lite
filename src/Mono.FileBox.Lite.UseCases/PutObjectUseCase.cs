@@ -9,6 +9,7 @@ namespace Mono.FileBox.Lite.UseCases;
 /// <summary>
 /// Put pipeline: <c>Put → Index → Audit → Publish</c>. On failure the completed
 /// transitions are rolled back in reverse order (leaving the physical block intact).
+/// 中文翻译：Put 流水线：Put → Index → Audit → Publish。失败时按相反顺序回滚已完成的流转（保留物理块不动）。
 /// </summary>
 public sealed class PutObjectUseCase : IPutObjectUseCase
 {

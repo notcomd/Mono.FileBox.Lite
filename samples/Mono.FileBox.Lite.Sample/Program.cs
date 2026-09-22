@@ -15,6 +15,7 @@ namespace Mono.FileBox.Lite.Sample;
 /// Stress verification: uploads a large object and samples the process's memory
 /// (working set + managed heap), CPU usage and the on-disk footprint written by the
 /// storage engine.
+/// 中文翻译：压测验证：上传一个超大对象并采样进程内存（工作集 + 托管堆）、CPU 使用率以及存储引擎写入的磁盘占用。
 /// </summary>
 public static class Program
 {
@@ -395,6 +396,7 @@ public static class Program
     /// demand (O(1) memory). Because it is replayable, the engine hashes a pass and then
     /// stream-writes a rewind, both reading identical bytes — so even a multi-gigabyte
     /// upload never materializes the payload in memory.
+    /// 中文翻译：一个可寻址、确定性的数据流，按读取位置按需生成字节（O(1) 内存）。由于可回放，引擎先跑一遍哈希再回卷流式写入，两次读到完全相同的字节——因此即使几 GB 的上传也无需在内存中实例化整个负载。
     /// </summary>
     private sealed class PatternStream : Stream
     {

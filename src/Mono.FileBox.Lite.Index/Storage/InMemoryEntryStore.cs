@@ -6,6 +6,8 @@ namespace Mono.FileBox.Lite.Index.Storage;
 /// <summary>
 /// In-memory entry store. Entries are held by content hash with a namespace index for
 /// listing. This is the lightweight default for the Lite engine (no external database).
+/// 中文翻译：内存条目存储。以内容哈希持有条目，并维护命名空间索引以便枚举；
+/// 这是 Lite 引擎的轻量级默认实现（无需外部数据库）。
 /// </summary>
 /// <remarks>
 /// <b>并发语义</b>：基于 <see cref="ConcurrentDictionary{TKey,TValue}"/>（按 content hash），

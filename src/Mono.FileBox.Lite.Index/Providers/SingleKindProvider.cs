@@ -4,7 +4,9 @@ using Mono.FileBox.Lite.Abstractions.Index;
 
 namespace Mono.FileBox.Lite.Index.Providers;
 
-/// <summary>Base helper for single-kind providers.</summary>
+/// <summary>Base helper for single-kind providers.
+/// 中文翻译：单一谓词种类索引提供方的基类辅助。
+/// </summary>
 public abstract class SingleKindProvider : IIndexProvider
 {
     private readonly PredicateKind _kind;

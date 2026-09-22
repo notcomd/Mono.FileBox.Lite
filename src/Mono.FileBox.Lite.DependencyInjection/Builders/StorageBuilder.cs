@@ -3,16 +3,13 @@
 // </copyright>
 
 using Microsoft.Extensions.DependencyInjection;
-using Mono.FileBox.Lite.Abstractions.Backup;
-using Mono.FileBox.Lite.Abstractions.Cluster;
-using Mono.FileBox.Lite.Abstractions.Index;
 using Mono.FileBox.Lite.Abstractions.Storage;
 using Mono.FileBox.Lite.Abstractions.Subsystems;
-using Mono.FileBox.Lite.Abstractions.UseCases;
 
 namespace Mono.FileBox.Lite.DependencyInjection.Builders;
 
-/// <summary>Fluent builder for the storage engine wiring.</summary>
+/// <summary>Fluent builder for the storage engine wiring.
+/// 中文翻译：用于存储引擎装配的流式（fluent）构建器。</summary>
 public sealed class StorageBuilder
 {
     private readonly IServiceCollection _services;

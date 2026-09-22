@@ -6,7 +6,8 @@ using Mono.FileBox.Lite.Abstractions.UseCases;
 namespace Mono.FileBox.Lite.UseCases;
 
 // File: DeleteObjectUseCase — logical-delete use case that fires the Delete transition.
-/// <summary>Delete: fires the <c>Delete</c> transition (logical delete, recovery window kept).</summary>
+/// <summary>Delete: fires the <c>Delete</c> transition (logical delete, recovery window kept).
+/// 中文翻译：删除：触发 Delete 状态流转（逻辑删除，保留恢复窗口）。</summary>
 public sealed class DeleteObjectUseCase : IDeleteObjectUseCase
 {
     private readonly IObjectStateMachine _machine;

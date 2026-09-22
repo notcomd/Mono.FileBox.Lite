@@ -1,7 +1,7 @@
 // 本文件包含类型 Page<T>：带不透明续接游标的稳定结果页。
 namespace Mono.FileBox.Lite.Abstractions.Index;
 
-/// <summary>A stable page of results with an opaque continuation cursor.</summary>
+/// <summary>A stable page of results with an opaque continuation cursor. 中文翻译：带不透明续接游标的稳定结果页。</summary>
 public sealed class Page<T>
 {
     public IReadOnlyList<T> Items { get; init; } = Array.Empty<T>();

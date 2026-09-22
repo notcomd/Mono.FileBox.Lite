@@ -4,7 +4,8 @@ using Mono.FileBox.Lite.StateMachine;
 
 namespace Mono.FileBox.Lite.Functional.Tests;
 
-/// <summary>State machine semantics: transitions, guards, observers, idempotency.</summary>
+/// <summary>State machine semantics: transitions, guards, observers, idempotency.
+/// 中文翻译：状态机语义：转移、守卫、观察者、幂等性。</summary>
 public class StateMachineTests
 {
     private static readonly CancellationToken None = CancellationToken.None;

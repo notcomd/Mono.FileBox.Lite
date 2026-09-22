@@ -4,7 +4,9 @@ using Mono.FileBox.Lite.Abstractions.Index;
 
 namespace Mono.FileBox.Lite.Index.Providers;
 
-/// <summary>Prefix (ObjectKey) provider.</summary>
+/// <summary>Prefix (ObjectKey) provider.
+/// 中文翻译：前缀(ObjectKey)索引提供方。
+/// </summary>
 public sealed class PrefixIndexProvider : SingleKindProvider
 {
     private readonly IEntryStore _store;

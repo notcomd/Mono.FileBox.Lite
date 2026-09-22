@@ -3,6 +3,7 @@ namespace Mono.FileBox.Lite.Abstractions;
 /// <summary>
 /// Well-known <see cref="IObjectContext.Items"/> keys shared by the storage actions,
 /// the use-case layer and the index writer when passing data through a transition.
+/// 中文翻译：存储操作、用例层与索引写入器在通过转换传递数据时共享的 IObjectContext.Items 已知键。
 /// </summary>
 public static class ObjectContextKeys
 {

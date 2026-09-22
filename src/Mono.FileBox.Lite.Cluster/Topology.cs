@@ -6,6 +6,7 @@ namespace Mono.FileBox.Lite.Cluster.Topology;
 /// <summary>
 /// Cluster topology view backed by the node registry. Tracks a monotonically increasing
 /// version and raises <see cref="TopologyChanged"/> whenever the membership is refreshed.
+/// 中文翻译：基于节点注册表实现的集群拓扑视图。维护单调递增的版本号，并在成员集合刷新时触发 <see cref="TopologyChanged"/> 事件。
 /// </summary>
 public sealed class RegistryBackedTopology : IClusterTopology
 {

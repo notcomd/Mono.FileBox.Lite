@@ -7,6 +7,7 @@ namespace Mono.FileBox.Lite.Backup.Scheduler;
 /// <summary>
 /// Registers and lists backup schedules. Actual deadline evaluation is left to the host
 /// (e.g. a hosted service using a cron engine); this stores schedule state only.
+/// 中文翻译：登记并列出备份计划。实际的截止时间评估交由宿主程序处理（例如使用 cron 引擎的托管服务）；此类仅存储计划状态。
 /// </summary>
 public sealed class CronBackupScheduler : IBackupScheduler
 {

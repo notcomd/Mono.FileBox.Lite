@@ -7,6 +7,7 @@ namespace Mono.FileBox.Lite.Subsystems.Events;
 
 /// <summary>
 /// Observers that publish an event on the bus. Used as a side-channel (observer) role.
+/// 中文翻译：在总线上发布事件的观察者，作为旁路（观察者）角色使用。
 /// </summary>
 public sealed class EventBusObserver : ITransitionObserver
 {

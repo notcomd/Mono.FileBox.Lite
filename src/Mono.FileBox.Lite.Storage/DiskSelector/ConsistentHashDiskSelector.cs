@@ -8,6 +8,7 @@ namespace Mono.FileBox.Lite.Storage.DiskSelector;
 /// Consistent-hash disk selector. Each enabled pool contributes a number of virtual
 /// points on a ring; content hashes are mapped to the nearest pool along the ring.
 /// Falls back to the highest-priority enabled pool when the ring is empty.
+/// 中文翻译：一致性哈希磁盘选择器：每个启用的池在环上贡献多个虚拟节点，内容哈希沿环映射到最近的池；当环为空时回退到优先级最高的启用池。
 /// </summary>
 /// <remarks>
 /// <b>并发语义</b>：一致性哈希环由 <c>lock</c> 保护的

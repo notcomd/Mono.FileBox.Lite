@@ -1,7 +1,7 @@
 // 本文件包含类型 IClusterShrinker：收缩/退役节点。
 namespace Mono.FileBox.Lite.Abstractions.Cluster;
 
-/// <summary>Shrinks / decommissions nodes.</summary>
+/// <summary>Shrinks / decommissions nodes. 中文翻译：收缩/退役节点，包含排空等待与移除能力。</summary>
 public interface IClusterShrinker
 {
     Task DecommissionAsync(string nodeId, CancellationToken ct);

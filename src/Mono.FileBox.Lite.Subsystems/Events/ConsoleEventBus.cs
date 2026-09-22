@@ -5,7 +5,8 @@ using Mono.FileBox.Lite.Abstractions.Subsystems;
 
 namespace Mono.FileBox.Lite.Subsystems.Events;
 
-/// <summary>Console event bus: writes published topics to the console. Also an observer role.</summary>
+/// <summary>Console event bus: writes published topics to the console. Also an observer role.
+/// 中文翻译：控制台事件总线，将发布的话题输出到控制台，同时兼具观察者角色。</summary>
 public sealed class ConsoleEventBus : IEventBus, ITransitionObserver
 {
     private readonly TextWriter _output;

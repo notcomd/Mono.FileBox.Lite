@@ -3,16 +3,12 @@
 // </copyright>
 
 using Microsoft.Extensions.DependencyInjection;
-using Mono.FileBox.Lite.Abstractions.Backup;
-using Mono.FileBox.Lite.Abstractions.Cluster;
-using Mono.FileBox.Lite.Abstractions.Index;
-using Mono.FileBox.Lite.Abstractions.Storage;
-using Mono.FileBox.Lite.Abstractions.Subsystems;
 using Mono.FileBox.Lite.Abstractions.UseCases;
 
 namespace Mono.FileBox.Lite.DependencyInjection.Builders;
 
-/// <summary>Fluent builder for use-case registration.</summary>
+/// <summary>Fluent builder for use-case registration.
+/// 中文翻译：用于用例注册的流式（fluent）构建器。</summary>
 public sealed class UseCasesBuilder
 {
     private readonly IServiceCollection _services;

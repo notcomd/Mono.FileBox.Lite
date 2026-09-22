@@ -12,6 +12,7 @@ namespace Mono.FileBox.Lite.Functional.Tests;
 /// <summary>
 /// Use-case orchestration over the full engine: put/get/delete/purge/archive/restore,
 /// exercising the state machine, storage and index together.
+/// 中文翻译：在完整引擎上编排用例：put/get/delete/purge/archive/restore，共同演练状态机、存储与索引。
 /// </summary>
 public class UseCasesLifecycleTests
 {

@@ -4,6 +4,7 @@ namespace Mono.FileBox.Lite.Abstractions.Index;
 /// <summary>
 /// An index provider that can serve a particular predicate kind with an estimated
 /// selectivity. Providers are used by the planner to pick the driving scan.
+/// 中文翻译：可为特定谓词种类提供索引服务并估算其选择度的索引提供方，规划器据此选择驱动扫描。
 /// </summary>
 public interface IIndexProvider
 {

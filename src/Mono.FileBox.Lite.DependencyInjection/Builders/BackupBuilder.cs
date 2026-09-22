@@ -5,6 +5,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Mono.FileBox.Lite.Abstractions.Backup;
 using Mono.FileBox.Lite.Abstractions.Cluster;
+using Mono.FileBox.Lite.Abstractions.Configuration;
 using Mono.FileBox.Lite.Abstractions.Index;
 using Mono.FileBox.Lite.Abstractions.Storage;
 using Mono.FileBox.Lite.Abstractions.Subsystems;
@@ -12,16 +13,17 @@ using Mono.FileBox.Lite.Abstractions.UseCases;
 
 namespace Mono.FileBox.Lite.DependencyInjection.Builders;
 
-/// <summary>Fluent builder for the backup wiring and target registration.</summary>
+/// <summary>Fluent builder for the backup wiring and target registration.
+/// 中文翻译：用于备份装配与目标注册的流式（fluent）构建器。</summary>
 public sealed class BackupBuilder
 {
     private readonly IServiceCollection _services;
-    private readonly Mono.FileBox.Lite.Abstractions.Configuration.FileBoxOptions _options;
+    private readonly FileBoxOptions _options;
     private readonly IBackupTargetResolver _resolver;
 
     public BackupBuilder(
         IServiceCollection services,
-        Mono.FileBox.Lite.Abstractions.Configuration.FileBoxOptions options,
+        FileBoxOptions options,
         IBackupTargetResolver resolver)
     {
         _services = services;
@@ -49,7 +51,7 @@ public sealed class BackupBuilder
     { _services.AddSingleton<IBackupGarbageCollector, T>(); return this; }
     public BackupBuilder Schedule(BackupSchedule schedule)
     {
-        _options.Backup.Schedules.Add(new Mono.FileBox.Lite.Abstractions.Configuration.BackupScheduleOptions
+        _options.Backup.Schedules.Add(item: new BackupScheduleOptions
         {
             ScheduleId = schedule.ScheduleId,
             Cron = schedule.Cron,

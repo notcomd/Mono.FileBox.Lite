@@ -8,6 +8,7 @@ namespace Mono.FileBox.Lite.Subsystems.Events;
 /// <summary>
 /// Transition observer that records lifecycle transitions. Acts as the
 /// <see cref="ITransitionObserver"/> used by the <c>Publish</c> transition.
+/// 中文翻译：记录生命周期转移的转移观察者，作为 <c>Publish</c> 转移所使用的 <see cref="ITransitionObserver"/>。
 /// </summary>
 public sealed class TransitionLoggerObserver : ITransitionObserver
 {

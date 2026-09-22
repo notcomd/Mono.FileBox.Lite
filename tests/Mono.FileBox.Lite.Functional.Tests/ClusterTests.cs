@@ -6,7 +6,8 @@ using Mono.FileBox.Lite.Abstractions.Storage;
 
 namespace Mono.FileBox.Lite.Functional.Tests;
 
-/// <summary>Cluster coordination: consistent hash ring, topology versioning, capacity monitoring.</summary>
+/// <summary>Cluster coordination: consistent hash ring, topology versioning, capacity monitoring.
+/// 中文翻译：集群协调：一致性哈希环、拓扑版本管理、容量监控。</summary>
 public class ClusterTests
 {
     private static readonly CancellationToken None = CancellationToken.None;

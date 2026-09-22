@@ -159,6 +159,153 @@ services.AddMonoFileBoxLiteIndex(builder =>
 
 > 保留了 `IEntryStore` DB 接口，未来可无缝替换为 SQLite 等实现。
 
+### 4.2 用 appsettings.json 配置文件来配置引擎
+
+在 ASP.NET Core / 任何使用 `Microsoft.Extensions.Configuration` 的宿主里，可用 `appsettings.json` 声明引擎配置，再绑定到 `FileBoxOptions` 并装配。下面是一份「文件存储 API 服务」的完整 `appsettings.json` 示例，`FileBox:` 段对应 `FileBoxOptions` 的字段（含默认值标注，可只写需要覆盖的键）：
+
+```jsonc
+{
+  "FileBox": {
+    "StateMachine": {
+      "ThrowOnGuardDenied": false,   // bool，默认 false
+      "FailFastOnObserverError": false, // bool，默认 false
+      "TransitionTimeout": "00:00:30",  // TimeSpan，默认 00:00:30
+      "AuditDeniedTransitions": true,   // bool，默认 true
+      "MaxOptimisticRetries": 3,        // int，默认 3
+      "RetryBackoff": "00:00:00.050"    // TimeSpan，默认 50ms
+    },
+    "Storage": {
+      "HashAlgorithm": "SHA-256",       // string，默认 "SHA-256"
+      "Deduplication": "Global",        // DeduplicationMode：Global|NamespaceScoped|Disabled
+      "VerifyAfterWrite": false,        // bool，默认 false
+      "Chunking": {
+        "Enabled": true,                // bool，默认 false（分块默认关闭，需显式开启）
+        "ChunkSizeBytes": 8388608       // long，默认 8 MiB
+      },
+      "Pools": [
+        {
+          "PoolId": "hot-1",
+          "RootPath": "C:\\filebox-data\\hot",
+          "Tier": "Hot",                // StorageTier：Hot|Warm|Cold|Archive
+          "CapacityBytes": null,        // long?，null 表示无上限
+          "Priority": 0,                // int，默认 0
+          "Enabled": true               // bool，默认 true
+        },
+        {
+          "PoolId": "cold-1",
+          "RootPath": "C:\\filebox-data\\cold",
+          "Tier": "Cold",
+          "Enabled": true
+        }
+      ],
+      "DefaultWrite": {                 // WriteOptions
+        "Tier": "Hot",
+        "PoolId": null,                 // string?，留空按策略挑选
+        "BandwidthLimit": null          // long?，null 表示不限
+      }
+    },
+    "Index": {
+      "Consistency": "Strong",          // IndexConsistencyMode：Strong|Eventual
+      "DefaultPageSize": 100,           // int，默认 100
+      "MaxPageSize": 1000,              // int，默认 1000
+      "Features": {
+        "EnablePrefix": true, "EnableTagInverted": true, "EnableAttribute": true,
+        "EnableTierBitmap": true, "EnableStateBitmap": true,
+        "EnableTimeIndex": true, "EnableSizeIndex": true
+      },
+      "Sharding": {
+        "Enabled": false,               // bool，默认 false
+        "ShardCount": 1                 // int，默认 1
+      },
+      "Store": {                        // OrderedKvOptions
+        "Provider": "sqlite",           // string，默认 "sqlite"
+        "ConnectionString": null,       // string?，默认用内置路径
+        "CacheSizeMb": 64,              // int，默认 64
+        "SyncWrites": true              // bool，默认 true
+      }
+    },
+    "Backup": {
+      "MaxConcurrency": 4,              // int，默认 4
+      "BandwidthLimit": 0,              // long，0 表示不限
+      "MaxRetries": 3,                  // int，默认 3
+      "Targets": [
+        {
+          "TargetId": "local-primary",
+          "Type": "local",              // 目标类型（如 "local"）
+          "RootPath": "C:\\filebox-backups",
+          "Enabled": true
+        }
+      ],
+      "Schedules": [
+        {
+          "ScheduleId": "daily",
+          "Cron": "0 2 * * *",          // Cron 表达式
+          "Kind": "Incremental",        // BackupKind：Full|Incremental|Differential
+          "TargetId": "local-primary",
+          "Enabled": true
+        }
+      ]
+    },
+    "Cluster": {
+      "Role": "Hybrid",                 // NodeRole：Coordinator|Storage|Index|Backup|Hybrid
+      "NodeId": "node-a",
+      "AdvertiseAddress": "localhost:0",
+      "SeedNodes": [ "node-b:9000", "node-c:9000" ],
+      "HeartbeatInterval": "00:00:05",  // TimeSpan，默认 5s
+      "NodeTimeout": "00:00:30",        // TimeSpan，默认 30s
+      "Thresholds": { "Warning": 0.70, "Critical": 0.85, "Full": 0.95 } // double 水位
+    },
+    "Lifecycle": {
+      "ScanInterval": "00:05:00",       // TimeSpan，默认 5min
+      "ScanBatchSize": 1000,            // int，默认 1000
+      "ArchiveAfter": null,             // TimeSpan?，null 表示不启用
+      "DeleteAfter": null               // TimeSpan?，null 表示不启用
+    },
+    "Observability": {
+      "Logging": { "MinimumLevel": "Information" }, // LogLevel：Trace..Critical
+      "Metrics": { "Enabled": true, "Port": 9090 },   // MetricsOptions
+      "Tracing": { "Enabled": false }                // TracingOptions
+    }
+  }
+}
+```
+
+在 `Program.cs`/`Startup` 里加载 + 绑定 + 装配：
+
+```csharp
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Mono.FileBox.Lite.Abstractions;
+using Mono.FileBox.Lite.Abstractions.Configuration;
+using Mono.FileBox.Lite.DependencyInjection;
+
+// 1) 读取配置（ASP.NET Core 环境下 Configuration 已由 WebApplicationBuilder 注入）
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(AppContext.BaseDirectory)
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .Build();
+
+// 2) 绑定 "FileBox" 段到 FileBoxOptions（子对象均带默认值，省略的键用默认）
+var fileBox = configuration.GetSection("FileBox").Get<FileBoxOptions>() ?? new FileBoxOptions();
+
+// 3) 装配 DI（与代码方式完全一致）
+var services = new ServiceCollection();
+services.AddSingleton<IConfiguration>(configuration);
+services.AddMonoFileBoxLite(fileBox);
+services.AddMonoFileBoxLiteStorage();
+services.AddMonoFileBoxLiteIndex(builder => builder.UseJsonFileEntryStore(@"C:\filebox-data\index.json"));
+services.AddMonoFileBoxLiteUseCases();
+var provider = services.BuildServiceProvider();
+```
+
+要点：
+
+- `FileBoxOptions` 及其子选项均为可变更的 POCO，所有子对象**默认即带实例**，`appsettings.json` 里未出现的键会保留类型默认值——因此示例可只写需要覆盖的字段。
+- 枚举（`Tier`/`Deduplication`/`Consistency`/`Role`/`Kind`/`MinimumLevel`）以**字符串名称**匹配；`TimeSpan` 一律用**字符串**格式（如 `"00:05:00"`），不能写数字秒。
+- 需要 `Microsoft.Extensions.Configuration.Binder`（绑定 `Get<T>()`）与 `Microsoft.Extensions.Configuration.Json`（`AddJsonFile`）。
+- `Storage.Chunking.Enabled` 默认 `false`；想在配置层面开启分块，就在 `FileBox:Storage:Chunking:Enabled` 设为 `true`。
+- 若要配置日志/指标重启后即时生效，可配合 `IOptionsChangeNotifier`（仓库内置热重载通知）监听变更。
+
 ---
 
 ## 5. 核心概念

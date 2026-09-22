@@ -1,7 +1,7 @@
 // 本文件包含类型 RebalanceProgress：进行中再平衡的进度。
 namespace Mono.FileBox.Lite.Abstractions.Cluster;
 
-/// <summary>Progress for an in-flight rebalance.</summary>
+/// <summary>Progress for an in-flight rebalance. 中文翻译：进行中再平衡操作的进度。</summary>
 public sealed class RebalanceProgress
 {
     public long TotalBlocks { get; init; }

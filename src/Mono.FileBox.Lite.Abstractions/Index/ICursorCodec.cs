@@ -1,7 +1,7 @@
 // 本文件包含类型 ICursorCodec：编码/解码不透明分页游标。
 namespace Mono.FileBox.Lite.Abstractions.Index;
 
-/// <summary>Encodes/decodes opaque pagination cursors.</summary>
+/// <summary>Encodes/decodes opaque pagination cursors. 中文翻译：对不透明分页游标进行编码/解码。</summary>
 public interface ICursorCodec
 {
     string Encode(object cursor);

@@ -9,7 +9,8 @@ namespace Mono.FileBox.Lite.StateMachine;
 /// <summary>
 /// Default implementation of <see cref="IObjectStateMachine"/>. Fires a trigger by:
 /// resolving the transition for (trigger, currentState), running guards, before
-/// observers, actions, committing the state, persisting it, then after observers.
+/// observers, committing the state, persisting it, then after observers.
+/// 中文翻译：<see cref="IObjectStateMachine"/> 的默认实现。触发转移时依次：解析 (trigger, currentState) 对应的转移、运行守卫、before 观察器、动作、提交状态、持久化，最后运行 after 观察器。
 /// </summary>
 /// <remarks>
 /// <b>并发语义</b>：一次 <see cref="FireAsync"/> 只操作传入的单个 <see cref="IObjectContext"/>，

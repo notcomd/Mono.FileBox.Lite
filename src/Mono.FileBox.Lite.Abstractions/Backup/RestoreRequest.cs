@@ -1,7 +1,7 @@
 // 本文件包含类型 RestoreRequest：从备份恢复对象的请求。
 namespace Mono.FileBox.Lite.Abstractions.Backup;
 
-/// <summary>Request to restore objects from a backup.</summary>
+/// <summary>Request to restore objects from a backup. 中文翻译：从备份恢复对象的请求对象。</summary>
 public sealed class RestoreRequest
 {
     public string TargetId { get; init; } = string.Empty;

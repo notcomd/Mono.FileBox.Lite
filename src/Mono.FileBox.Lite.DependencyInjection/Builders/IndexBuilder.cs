@@ -3,17 +3,14 @@
 // </copyright>
 
 using Microsoft.Extensions.DependencyInjection;
-using Mono.FileBox.Lite.Abstractions.Backup;
-using Mono.FileBox.Lite.Abstractions.Cluster;
 using Mono.FileBox.Lite.Abstractions.Index;
-using Mono.FileBox.Lite.Abstractions.Storage;
 using Mono.FileBox.Lite.Abstractions.Subsystems;
-using Mono.FileBox.Lite.Abstractions.UseCases;
 using Mono.FileBox.Lite.Index.Storage;
 
 namespace Mono.FileBox.Lite.DependencyInjection.Builders;
 
-/// <summary>Fluent builder for the structured index wiring.</summary>
+/// <summary>Fluent builder for the structured index wiring.
+/// 中文翻译：用于结构化索引装配的流式（fluent）构建器。</summary>
 public sealed class IndexBuilder
 {
     private readonly IServiceCollection _services;

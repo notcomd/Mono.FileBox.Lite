@@ -10,6 +10,7 @@ namespace Mono.FileBox.Lite.UseCases;
 /// <summary>
 /// Read path. Performs no transition — it only reads objects that are in the
 /// <see cref="ObjectState.Available"/> state.
+/// 中文翻译：读取路径。不执行任何状态流转——仅读取处于 Available（可用）状态的对象。
 /// </summary>
 public sealed class GetObjectUseCase : IGetObjectUseCase
 {

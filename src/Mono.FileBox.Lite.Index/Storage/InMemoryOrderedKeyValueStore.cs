@@ -6,6 +6,7 @@ namespace Mono.FileBox.Lite.Index.Storage;
 /// <summary>
 /// In-memory stored ordered key/value store. Keys are compared as byte-lexicographic
 /// sequences, enabling prefix range scans.
+/// 中文翻译：内存中存储的有序键值存储。键按字节字典序比较，从而支持前缀范围扫描。
 /// </summary>
 public sealed class InMemoryOrderedKeyValueStore : IOrderedKeyValueStore
 {

@@ -1,7 +1,7 @@
 // 本文件包含类型 ChunkingOptions：对象内部固定大小分块的选项。
 namespace Mono.FileBox.Lite.Abstractions.Configuration;
 
-/// <summary>Options for object-internal fixed-size chunking.</summary>
+/// <summary>Options for object-internal fixed-size chunking. 中文翻译：对象内部固定大小分块的选项。</summary>
 public sealed class ChunkingOptions
 {
     /// <summary>Enables chunking (per chunk-block write + object manifest).</summary>

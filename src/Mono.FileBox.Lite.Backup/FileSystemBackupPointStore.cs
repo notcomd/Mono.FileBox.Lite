@@ -5,7 +5,8 @@ using Mono.FileBox.Lite.Abstractions.Backup;
 
 namespace Mono.FileBox.Lite.Backup;
 
-/// <summary>Persists backup points as JSON files.</summary>
+/// <summary>Persists backup points as JSON files.
+/// 中文翻译：将备份点以 JSON 文件形式持久化存储。</summary>
 public sealed class FileSystemBackupPointStore : IBackupPointStore
 {
     private readonly string _root;

@@ -4,6 +4,7 @@ namespace Mono.FileBox.Lite.Abstractions;
 /// <summary>
 /// Creates a fresh <see cref="IObjectContext"/> for an incoming command. Contexts
 /// are cheap, transient workflow objects tied to a single object instance.
+/// 中文翻译：为传入的命令创建全新的 IObjectContext；上下文是廉价、临时的流程对象，与单一对象实例绑定。
 /// </summary>
 public interface IObjectContextFactory
 {

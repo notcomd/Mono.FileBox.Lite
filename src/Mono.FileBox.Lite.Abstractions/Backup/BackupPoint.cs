@@ -1,7 +1,7 @@
 // 本文件包含类型 BackupPoint：表示一次备份操作的不可变快照。
 namespace Mono.FileBox.Lite.Abstractions.Backup;
 
-/// <summary>Immutable snapshot representing one backup operation.</summary>
+/// <summary>Immutable snapshot representing one backup operation. 中文翻译：表示一次备份操作的不可变快照记录。</summary>
 public sealed class BackupPoint
 {
     public string BackupId { get; set; } = string.Empty;

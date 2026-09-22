@@ -1,7 +1,7 @@
 // 本文件包含类型 BackupVerificationReport：备份校验操作的结果。
 namespace Mono.FileBox.Lite.Abstractions.Backup;
 
-/// <summary>Outcome of a backup-verification operation.</summary>
+/// <summary>Outcome of a backup-verification operation. 中文翻译：备份校验操作的结果报告。</summary>
 public sealed class BackupVerificationReport
 {
     public long VerifiedCount { get; init; }

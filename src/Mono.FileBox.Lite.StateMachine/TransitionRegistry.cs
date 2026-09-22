@@ -8,6 +8,7 @@ namespace Mono.FileBox.Lite.StateMachine;
 /// <summary>
 /// Registry of allowed state transitions, keyed by (trigger, from). A transition is
 /// allowed only if a registration exists for its current (trigger, from) pair.
+/// 中文翻译：允许的状态转移注册表，以 (trigger, from) 作为键。只有当当前 (trigger, from) 组合存在注册时，该转移才被允许。
 /// </summary>
 public sealed class TransitionRegistry
 {

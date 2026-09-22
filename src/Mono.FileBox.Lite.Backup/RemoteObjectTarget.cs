@@ -7,6 +7,7 @@ namespace Mono.FileBox.Lite.Backup.Targets;
 /// <summary>
 /// Remote object-store target. This Lite implementation stores blocks under a local
 /// mirror directory so the full backup flow runs end-to-end without external services.
+/// 中文翻译：远程对象存储备份目标。此 Lite 实现将块存储在本地的镜像目录下，从而无需外部服务即可端到端运行完整的备份流程。
 /// </summary>
 public sealed class RemoteObjectTarget : IBackupTarget
 {

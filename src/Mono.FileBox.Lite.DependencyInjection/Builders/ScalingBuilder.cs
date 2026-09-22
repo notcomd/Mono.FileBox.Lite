@@ -3,30 +3,26 @@
 // </copyright>
 
 using Microsoft.Extensions.DependencyInjection;
-using Mono.FileBox.Lite.Abstractions.Backup;
 using Mono.FileBox.Lite.Abstractions.Cluster;
-using Mono.FileBox.Lite.Abstractions.Index;
-using Mono.FileBox.Lite.Abstractions.Storage;
-using Mono.FileBox.Lite.Abstractions.Subsystems;
-using Mono.FileBox.Lite.Abstractions.UseCases;
 
 namespace Mono.FileBox.Lite.DependencyInjection.Builders;
 
-/// <summary>Fluent builder for cluster scaling wiring.</summary>
+/// <summary>Fluent builder for cluster scaling wiring.
+/// 中文翻译：用于集群伸缩装配的流式（fluent）构建器。</summary>
 public sealed class ScalingBuilder
 {
     private readonly IServiceCollection _services;
-    private readonly Mono.FileBox.Lite.Abstractions.Configuration.FileBoxOptions _options;
+    private readonly Abstractions.Configuration.FileBoxOptions _options;
 
     public ScalingBuilder(
         IServiceCollection services,
-        Mono.FileBox.Lite.Abstractions.Configuration.FileBoxOptions options)
+        Abstractions.Configuration.FileBoxOptions options)
     {
         _services = services;
         _options = options;
     }
 
-    public ScalingBuilder Configure(Action<Mono.FileBox.Lite.Abstractions.Configuration.ClusterOptions> configure)
+    public ScalingBuilder Configure(Action<Abstractions.Configuration.ClusterOptions> configure)
     { configure(_options.Cluster); return this; }
     public ScalingBuilder UseHashRing<T>() where T : class, IHashRing
     { _services.AddSingleton<IHashRing, T>(); return this; }

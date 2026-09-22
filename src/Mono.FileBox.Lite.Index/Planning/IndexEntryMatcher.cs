@@ -6,6 +6,8 @@ namespace Mono.FileBox.Lite.Index.Planning;
 /// <summary>
 /// Evaluates whether an <see cref="IndexEntry"/> satisfies every predicate of a query.
 /// Used by the executor as the authoritative final filter.
+/// 中文翻译：判断某个 <see cref="IndexEntry"/> 是否满足查询的每个谓词，
+/// 由执行器用作权威性的最终过滤条件。
 /// </summary>
 public static class IndexEntryMatcher
 {

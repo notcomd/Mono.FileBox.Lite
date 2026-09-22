@@ -7,7 +7,8 @@ using Mono.FileBox.Lite.Abstractions.Storage;
 
 namespace Mono.FileBox.Lite.Storage.ObjectWriter;
 
-/// <summary>Serializes/deserializes <see cref="ObjectChunkManifest"/> and reads/writes it via the physical device.</summary>
+/// <summary>Serializes/deserializes <see cref="ObjectChunkManifest"/> and reads/writes it via the physical device.
+/// 中文翻译：负责 <see cref="ObjectChunkManifest"/> 的序列化/反序列化，并通过物理设备对其进行读写。</summary>
 public static class ChunkManifestCodec
 {
     private static readonly JsonSerializerOptions Json = new()
@@ -23,12 +24,14 @@ public static class ChunkManifestCodec
         => JsonSerializer.Deserialize<ObjectChunkManifest>(data, Json)
            ?? new ObjectChunkManifest();
 
-    /// <summary>Writes the given <paramref name="manifest"/> under the pool of <paramref name="device"/>.</summary>
+    /// <summary>Writes the given <paramref name="manifest"/> under the pool of <paramref name="device"/>.
+    /// 中文翻译：将指定的 <paramref name="manifest"/> 写入 <paramref name="device"/> 对应的存储池。</summary>
     public static Task WriteAsync(IPhysicalDevice device, LocalDiskHandle disk,
         ObjectChunkManifest manifest, CancellationToken ct)
         => device.WriteBlockAsync(ResolveManifest(disk, manifest.ContentHash), Encode(manifest), ct);
 
-    /// <summary>Reads the manifest for <paramref name="contentHash"/> or <c>null</c> if the object is not chunked.</summary>
+    /// <summary>Reads the manifest for <paramref name="contentHash"/> or <c>null</c> if the object is not chunked.
+    /// 中文翻译：读取 <paramref name="contentHash"/> 对应的清单；若对象未分块则返回 <c>null</c>。</summary>
     public static async Task<ObjectChunkManifest?> ReadAsync(IPhysicalDevice device, LocalDiskHandle disk,
         string contentHash, CancellationToken ct)
     {
@@ -38,7 +41,8 @@ public static class ChunkManifestCodec
         return Decode(data.ToArray());
     }
 
-    /// <summary>Deletes the manifest (the caller still deletes the chunks).</summary>
+    /// <summary>Deletes the manifest (the caller still deletes the chunks).
+    /// 中文翻译：删除清单文件（分块仍由调用方负责删除）。</summary>
     public static Task DeleteAsync(IPhysicalDevice device, LocalDiskHandle disk,
         string contentHash, CancellationToken ct)
         => device.DeleteBlockAsync(ResolveManifest(disk, contentHash), ct);

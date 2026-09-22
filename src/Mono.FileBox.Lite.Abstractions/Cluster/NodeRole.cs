@@ -1,7 +1,7 @@
 // 本文件包含类型 NodeRole：节点在集群中的角色。
 namespace Mono.FileBox.Lite.Abstractions.Cluster;
 
-/// <summary>Role of a node in the cluster.</summary>
+/// <summary>Role of a node in the cluster. 中文翻译：节点在集群中承担的角色（协调/存储/索引/备份/混合）。</summary>
 public enum NodeRole
 {
     /// <summary>Coordination: metadata, routing, locks.</summary>

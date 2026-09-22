@@ -8,7 +8,8 @@ using Mono.FileBox.Lite.Abstractions.Subsystems;
 
 namespace Mono.FileBox.Lite.Subsystems;
 
-/// <summary>Distributed lock that always grants. Single-node default implementation.</summary>
+/// <summary>Distributed lock that always grants. Single-node default implementation.
+    /// 中文翻译：总是授予的分布式锁，单节点默认实现。</summary>
     /// <remarks>
     /// <b>并发语义</b>：默认为空实现（恒返回 <c>true</c>，无真实锁）。因此引擎默认
     /// <list type="bullet">

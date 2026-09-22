@@ -4,6 +4,7 @@ namespace Mono.FileBox.Lite.Abstractions.Storage;
 /// <summary>
 /// Physical block device primitive operating on opaque paths. It has no knowledge
 /// of content hashes or disk pools.
+/// 中文翻译：作用于不透明路径的物理块设备原语，不感知内容哈希或磁盘池。
 /// </summary>
 public interface IPhysicalDevice
 {

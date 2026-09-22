@@ -9,6 +9,7 @@ namespace Mono.FileBox.Lite.Backup.Restorer;
 /// Restores objects from a backup point. Blocks are pulled from the shared block pool
 /// and written back through the content-addressed writer (deduplication), then the
 /// index entries are rebuilt.
+/// 中文翻译：从某个备份点恢复对象。先从共享块池拉取块，再通过内容寻址写入器写回（去重），随后重建索引条目。
 /// </summary>
 public sealed class DefaultBackupRestorer : IBackupRestorer
 {

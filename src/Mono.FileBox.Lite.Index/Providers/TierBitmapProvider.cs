@@ -4,7 +4,9 @@ using Mono.FileBox.Lite.Abstractions.Index;
 
 namespace Mono.FileBox.Lite.Index.Providers;
 
-/// <summary>Tier bitmap provider.</summary>
+/// <summary>Tier bitmap provider.
+/// 中文翻译：层级(Tier)位图索引提供方。
+/// </summary>
 public sealed class TierBitmapProvider : SingleKindProvider
 {
     private readonly IEntryStore _store;

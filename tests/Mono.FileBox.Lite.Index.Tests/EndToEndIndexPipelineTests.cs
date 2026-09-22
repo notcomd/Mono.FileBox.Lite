@@ -14,6 +14,7 @@ namespace Mono.FileBox.Lite.Index.Tests;
 /// End-to-end: objects are persisted through the state-machine Put pipeline and the
 /// index writer, then read back through <see cref="IIndexReader"/> with tag/prefix and
 /// pagination, confirming write→query coherence and state synchronization.
+/// 中文翻译：端到端验证：对象经状态机 Put 流水线写入并同步到索引，随后可通过索引读取（标签/前缀/分页），确认写入→查询一致性与状态同步。
 /// </summary>
 public class EndToEndIndexPipelineTests
 {

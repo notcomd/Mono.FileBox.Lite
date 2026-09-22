@@ -6,6 +6,7 @@ namespace Mono.FileBox.Lite.StateMachine;
 /// Default mutable <see cref="IObjectContext"/>. Properties are writable so that
 /// the state machine can update the current state and actions can record derived
 /// values (such as the computed content hash) as the pipeline progresses.
+/// 中文翻译：默认的可变 <see cref="IObjectContext"/>。其属性可写，以便状态机更新当前状态，且动作可在管道推进过程中记录派生的值（如计算出的内容哈希）。
 /// </summary>
 public sealed class DefaultObjectContext : IMutableObjectContext
 {

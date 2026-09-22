@@ -23,6 +23,7 @@ namespace Mono.FileBox.Lite.Storage.ObjectWriter;
 /// Memory behaviour is bounded for both layouts: sources are hashed in place (seekable)
 /// or spooled to a temp file (non-seekable) and never fully buffered.
 /// Also acts as the <see cref="ITransitionAction"/> for the <c>Put</c> transition.
+/// 中文翻译：基于内容寻址的对象写入器，流式计算 SHA-256 键，哈希已存在时复用既有物理块（去重），否则经磁盘选择器与 I/O 管道持久化；支持整块与分块两种布局，内存占用有界。
 /// </summary>
 /// <remarks>
 /// <b>并发语义</b>：写入器本身无共享可变状态；每次 <see cref="WriteAsync"/> 只使用传入的流与

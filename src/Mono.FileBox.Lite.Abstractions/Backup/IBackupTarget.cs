@@ -1,7 +1,7 @@
 // 本文件包含类型 IBackupTarget：抽象备份目标（本地目录、对象存储等）。
 namespace Mono.FileBox.Lite.Abstractions.Backup;
 
-/// <summary>An abstract backup destination (local dir, object store, ...).</summary>
+/// <summary>An abstract backup destination (local dir, object store, ...). 中文翻译：抽象备份目标，如本地目录、对象存储等。</summary>
 public interface IBackupTarget
 {
     Task<bool> ExistsAsync(string relativePath, CancellationToken ct);

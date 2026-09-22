@@ -11,6 +11,7 @@ namespace Mono.FileBox.Lite.Backup.Writer;
 /// Creates full and incremental backup points over the shared block pool. Content
 /// addressing means blocks are never rewritten when they already exist; an incremental
 /// backup only writes the blocks not referenced by its parent manifest.
+/// 中文翻译：在共享块池之上创建全量与增量备份点。由于采用内容寻址，已存在的块不会被重复写入；增量备份只会写入其父清单未引用的块。
 /// </summary>
 public sealed class DefaultBackupWriter : IBackupWriter
 {

@@ -4,7 +4,8 @@ using Mono.FileBox.Lite.Abstractions.Backup;
 
 namespace Mono.FileBox.Lite.Backup.Targets;
 
-/// <summary>The relative layout of a backup target's block pool and backup points.</summary>
+/// <summary>The relative layout of a backup target's block pool and backup points.
+/// 中文翻译：备份目标块池与备份点的相对目录布局。</summary>
 public static class BackupLayout
 {
     /// <summary>Relative block path: blocks/{hash[0:2]}/{hash[2:4]}/{hash}.</summary>

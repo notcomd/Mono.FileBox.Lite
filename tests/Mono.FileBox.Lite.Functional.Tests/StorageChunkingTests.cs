@@ -10,7 +10,8 @@ using Mono.FileBox.Lite.Storage.PhysicalDevice;
 
 namespace Mono.FileBox.Lite.Functional.Tests;
 
-/// <summary>Content-addressed storage: write/read round-trip, dedup, range reads, chunking.</summary>
+/// <summary>Content-addressed storage: write/read round-trip, dedup, range reads, chunking.
+/// 中文翻译：内容寻址存储：写读往返、去重、范围读取、分块。</summary>
 public class StorageChunkingTests
 {
     private static readonly CancellationToken None = CancellationToken.None;

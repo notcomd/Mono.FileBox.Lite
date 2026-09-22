@@ -5,7 +5,8 @@ using Mono.FileBox.Lite.Abstractions.Backup;
 
 namespace Mono.FileBox.Lite.Backup;
 
-/// <summary>Persists backup manifests as JSON files.</summary>
+/// <summary>Persists backup manifests as JSON files.
+/// 中文翻译：将备份清单以 JSON 文件形式持久化存储。</summary>
 public sealed class FileSystemBackupManifestStore : IBackupManifestStore
 {
     private readonly string _root;

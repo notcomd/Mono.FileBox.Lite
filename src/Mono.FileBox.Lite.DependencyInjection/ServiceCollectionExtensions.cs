@@ -35,7 +35,8 @@ using Mono.FileBox.Lite.UseCases;
 
 namespace Mono.FileBox.Lite.DependencyInjection;
 
-/// <summary>Composes all Mono.FileBox.Lite components into an <see cref="IServiceCollection"/>.</summary>
+/// <summary>Composes all Mono.FileBox.Lite components into an <see cref="IServiceCollection"/>.
+/// 中文翻译：将 Mono.FileBox.Lite 的全部组件组装进一个 IServiceCollection 中。</summary>
 public static class FileBoxServiceCollectionExtensions
 {
     // -------- Core (L0/L3 + subsystems defaults) --------
@@ -160,11 +161,11 @@ public static class FileBoxServiceCollectionExtensions
         services.AddSingleton<IIndexProvider, SizeIndexProvider>();
 
         services.AddSingleton<IQueryPlanner>(sp =>
-            new Mono.FileBox.Lite.Index.Planning.QueryPlanner(
+            new Index.Planning.QueryPlanner(
                 sp.GetServices<IIndexProvider>(), sp.GetRequiredService<IEntryStore>()));
-        services.AddSingleton<IQueryExecutor, Mono.FileBox.Lite.Index.Planning.QueryExecutor>();
-        services.AddSingleton<IIndexReader, Mono.FileBox.Lite.Index.Planning.DefaultIndexReader>();
-        services.AddSingleton<IIndexMaintainer, Mono.FileBox.Lite.Index.IndexMaintainer>();
+        services.AddSingleton<IQueryExecutor, Index.Planning.QueryExecutor>();
+        services.AddSingleton<IIndexReader, Index.Planning.DefaultIndexReader>();
+        services.AddSingleton<IIndexMaintainer, Index.IndexMaintainer>();
 
         services.AddSingleton<IIndexWriter, DefaultIndexWriter>();
         services.AddSingleton<IndexStateSyncObserver>();

@@ -1,7 +1,7 @@
 // 本文件包含类型 ModerationResult：内容审核评估的结果。
 namespace Mono.FileBox.Lite.Abstractions.Subsystems;
 
-/// <summary>Outcome of a content-moderation evaluation.</summary>
+/// <summary>Outcome of a content-moderation evaluation. 中文翻译：内容审核评估的结果。</summary>
 public sealed class ModerationResult
 {
     public bool Passed { get; init; }

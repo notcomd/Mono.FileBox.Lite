@@ -1,7 +1,7 @@
 // 本文件包含类型 IndexUpdate：应用于既有索引条目的字段级更新。
 namespace Mono.FileBox.Lite.Abstractions.Index;
 
-/// <summary>Field-level update applied to an existing index entry.</summary>
+/// <summary>Field-level update applied to an existing index entry. 中文翻译：应用于既有索引条目的字段级更新。</summary>
 public sealed class IndexUpdate
 {
     public string? ObjectKey { get; init; }
