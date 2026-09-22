@@ -23,7 +23,7 @@ public static class ChunkManifestCodec
         => JsonSerializer.Deserialize<ObjectChunkManifest>(data, Json)
            ?? new ObjectChunkManifest();
 
-    /// <summary>Writes the manifest for <paramref name="contentHash"/> under the pool of <paramref name="disk"/>.</summary>
+    /// <summary>Writes the given <paramref name="manifest"/> under the pool of <paramref name="device"/>.</summary>
     public static Task WriteAsync(IPhysicalDevice device, LocalDiskHandle disk,
         ObjectChunkManifest manifest, CancellationToken ct)
         => device.WriteBlockAsync(ResolveManifest(disk, manifest.ContentHash), Encode(manifest), ct);

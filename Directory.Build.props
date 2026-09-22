@@ -24,6 +24,14 @@
 
     <!-- 默认所有库可打包；示例/测试显式关闭 -->
     <IsPackable Condition="'$(IsPackable)'==''">true</IsPackable>
+
+    <!-- 符号包：同时产出 .snupkg（含 portable PDB）。
+         注：SourceLink / EmbedUntrackedSources 依赖真实 git remote 才能生成源码链接；
+         当前仓库未配置远程，强行开启会破坏『0 警告』约束，故暂不启用。
+         日后配置好 origin 后，可在下方恢复 PublishRepositoryUrl/EmbedUntrackedSources
+         与 Microsoft.SourceLink.GitHub 包引用即可获得可调试源码链接。 -->
+    <IncludeSymbols Condition="'$(IsPackable)'=='true'">true</IncludeSymbols>
+    <SymbolPackageFormat Condition="'$(IsPackable)'=='true'">snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
 </Project>
