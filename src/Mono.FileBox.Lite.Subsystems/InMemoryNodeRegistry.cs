@@ -1,7 +1,6 @@
 // File-level documentation: In-memory node registry (single node in standalone mode).
 // Extracted from the original multi-type Defaults.cs.
 using System.Collections.Concurrent;
-using Mono.FileBox.Lite.Abstractions;
 using Mono.FileBox.Lite.Abstractions.Cluster;
 using Mono.FileBox.Lite.Abstractions.Subsystems;
 

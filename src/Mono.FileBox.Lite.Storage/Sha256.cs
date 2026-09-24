@@ -11,7 +11,7 @@ public static class Sha256
     /// 计算字节缓冲区的十六进制小写 SHA-256。</summary>
     public static string Compute(byte[] data)
     {
-        using var sha = System.Security.Cryptography.SHA256.Create();
+        using var sha = SHA256.Create();
         var hash = sha.ComputeHash(data);
         return ToHex(hash);
     }
@@ -20,7 +20,7 @@ public static class Sha256
     /// 从流当前位置开始计算其内容的十六进制小写 SHA-256。</summary>
     public static string Compute(Stream content, CancellationToken ct = default)
     {
-        using var sha = System.Security.Cryptography.SHA256.Create();
+        using var sha = SHA256.Create();
         var buffer = System.Buffers.ArrayPool<byte>.Shared.Rent(81920);
         try
         {
@@ -43,7 +43,7 @@ public static class Sha256
     /// 字符串的稳定 64 位哈希，供一致性哈希环使用。</summary>
     public static long StableHash(string value)
     {
-        using var sha = System.Security.Cryptography.SHA256.Create();
+        using var sha = SHA256.Create();
         var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(value));
         // Fold the first 16 bytes into a long.
         long result = 0;

@@ -1,0 +1,12 @@
+﻿D:\Project\Mono.FileBox.Lite\tests\Mono.FileBox.Lite.Index.Tests\bin\Release\net9.0\Mono.FileBox.Lite.Index.Tests.dll (.NETCoreApp,Version=v9.0)的测试运行
+总共 1 个测试文件与指定模式相匹配。
+dotnet : 活动的测试运行已中止。原因: 测试主机进程崩溃
+At line:15 char:1194
++ ... -Seconds 2; dotnet test tests/Mono.FileBox.Lite.Index.Tests/Mono.File ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (活动的测试运行已中止。原因: 测试主机进程崩溃:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+已通过! - 失败:     0，通过:    10，已跳过:     0，总计:    10，持续时间: 92 ms - Mono.FileBox.Lite.Index.Tests.dll (net9.0)
+测试运行已中止。

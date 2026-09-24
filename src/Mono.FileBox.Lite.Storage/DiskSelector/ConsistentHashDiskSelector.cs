@@ -1,5 +1,4 @@
 using Mono.FileBox.Lite.Abstractions.Configuration;
-using Mono.FileBox.Lite.Abstractions.Index;
 using Mono.FileBox.Lite.Abstractions.Storage;
 
 namespace Mono.FileBox.Lite.Storage.DiskSelector;
@@ -88,9 +87,13 @@ public sealed class ConsistentHashDiskSelector : IDiskSelector
         }
     }
 
+    /// <summary>
+    ///  获取磁盘信息
+    /// </summary>
+    /// <returns></returns>
     private List<DiskPoolInfo> GetPoolInfos()
     {
-        lock (_lock) return new List<DiskPoolInfo>(_poolInfos ?? new List<DiskPoolInfo>());
+        lock (_lock) return [.. _poolInfos ?? new List<DiskPoolInfo>()];
     }
 
     private static DiskPoolInfo ToPoolInfo(PoolOptions pool) => new()

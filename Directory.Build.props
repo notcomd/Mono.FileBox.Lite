@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <!-- 打包版本（CI 可用 -p:PackageVersion= 覆盖） -->
-    <PackageVersion Condition="'$(PackageVersion)'==''">1.0.0</PackageVersion>
+    <PackageVersion Condition="'$(PackageVersion)'==''">1.0.2</PackageVersion>
     <Version Condition="'$(Version)'==''">$(PackageVersion)</Version>
 
     <!-- NuGet 通用元数据 -->
@@ -12,17 +12,17 @@
     <Product>Mono.FileBox.Lite</Product>
     <Copyright>Copyright (c) 2026 Mono.FileBox.Lite</Copyright>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/mono/FileBox.Lite</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/mono/FileBox.Lite</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/notcomd/Mono.FileBox.Lite</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/notcomd/Mono.FileBox.Lite</PackageProjectUrl>
     <PackageTags>object-storage;content-addressable;dedup;state-machine;index;backup;cluster;filebox</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 
-    <!-- 生成 XML 文档并把缺失注释告警 L0-L5 用 NoWarn 压掉（仓库文档注释已就绪） -->
+
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
 
-    <!-- 默认所有库可打包；示例/测试显式关闭 -->
+
     <IsPackable Condition="'$(IsPackable)'==''">true</IsPackable>
 
     <!-- 符号包：同时产出 .snupkg（含 portable PDB）。

@@ -31,15 +31,30 @@ public sealed class BufferedIOPipeline : IIOPipeline
         return _device.WriteBlockAsync(path, bytes, ct);
     }
 
-    public async Task<Stream> ReadAsync(
+    public Task<Stream> ReadAsync(
         IDiskHandle disk, string contentHash,
         long offset, long length, CancellationToken ct)
     {
         if (disk is not LocalDiskHandle local)
             throw new NotSupportedException($"Unsupported disk handle '{disk.GetType().FullName}'.");
 
-        var block = await _device.ReadBlockAsync(
-            ObjectPathMapper.Resolve(local.RootPath, contentHash), ct).ConfigureAwait(false);
+        var path = ObjectPathMapper.Resolve(local.RootPath, contentHash);
+
+        // Streaming path: open the file and expose only the requested range. This avoids
+        // materializing the whole block (ReadAllBytes + ToArray + slice) for large objects,
+        // keeping download memory at O(1).
+        // 流式路径：打开文件并只暴露请求区间，避免为读取大对象而整块物化（ReadAllBytes + ToArray + slice），
+        // 使下载内存维持在 O(1)。
+        if (_device is LocalFileSystemDevice fs)
+            return fs.ReadBlockRangeAsync(path, offset, length, ct);
+
+        return ReadAsyncBuffered(path, offset, length, ct);
+    }
+
+    private async Task<Stream> ReadAsyncBuffered(
+        string path, long offset, long length, CancellationToken ct)
+    {
+        var block = await _device.ReadBlockAsync(path, ct).ConfigureAwait(false);
         var data = block.ToArray();
 
         offset = Math.Max(0, offset);
