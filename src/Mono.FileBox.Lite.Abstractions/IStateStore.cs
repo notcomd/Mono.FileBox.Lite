@@ -4,7 +4,7 @@ namespace Mono.FileBox.Lite.Abstractions;
 /// <summary>
 /// Persists the current lifecycle state of an object independently of the in-memory
 /// state machine. Concurrency is handled optimistically via a version counter.
-/// 中文翻译：独立于内存状态机持久化对象的当前生命周期状态，并通过版本计数器以乐观方式处理并发。
+/// 独立于内存状态机持久化对象的当前生命周期状态，并通过版本计数器以乐观方式处理并发。
 /// </summary>
 public interface IStateStore
 {

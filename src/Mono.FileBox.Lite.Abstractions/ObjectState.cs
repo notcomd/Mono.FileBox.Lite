@@ -3,7 +3,7 @@ namespace Mono.FileBox.Lite.Abstractions;
 /// <summary>
 /// Lifecycle states of a file object. Each stored object is an instance of the
 /// object lifecycle state machine.
-/// 中文翻译：文件对象的生命周期状态。每个已存储对象都是对象生命周期状态机的一个实例。
+/// 文件对象的生命周期状态。每个已存储对象都是对象生命周期状态机的一个实例。
 /// </summary>
 public enum ObjectState
 {

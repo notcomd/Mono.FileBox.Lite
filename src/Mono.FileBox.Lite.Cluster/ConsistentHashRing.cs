@@ -9,7 +9,7 @@ namespace Mono.FileBox.Lite.Cluster.HashRing;
 /// Consistent hash ring. Each node contributes <c>virtualNodeCount</c> points (this
 /// implementation uses a fixed 96 per node by default); a key maps to the first replica
 /// nodes reached clockwise from the key's hash.
-/// 中文翻译：一致性哈希环。每个节点贡献 <c>virtualNodeCount</c> 个哈希点（本实现默认每节点固定 96 个）；键(key)映射到从该键哈希值顺时针遇到的首个副本节点。
+/// 一致性哈希环。每个节点贡献 <c>virtualNodeCount</c> 个哈希点（本实现默认每节点固定 96 个）；键(key)映射到从该键哈希值顺时针遇到的首个副本节点。
 /// </summary>
 public sealed class ConsistentHashRing : IHashRing
 {

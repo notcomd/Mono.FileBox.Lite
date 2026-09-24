@@ -3,7 +3,7 @@
 namespace Mono.FileBox.Lite.Backup.Targets;
 
 /// <summary>Options for a remote object-store backup target.
-/// 中文翻译：远程对象存储备份目标的选项。</summary>
+/// 远程对象存储备份目标的选项。</summary>
 public sealed class RemoteObjectOptions
 {
     public string Endpoint { get; set; } = string.Empty;

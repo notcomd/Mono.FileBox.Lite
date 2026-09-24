@@ -6,7 +6,7 @@ namespace Mono.FileBox.Lite.Storage.PhysicalDevice;
 /// <summary>
 /// Physical block device backed by the local filesystem. Operates purely on opaque
 /// paths and has no knowledge of content hashes or disk pools.
-/// 中文翻译：基于本地文件系统的物理块设备，仅按不透明路径进行读写，不感知内容哈希或磁盘池概念。
+/// 基于本地文件系统的物理块设备，仅按不透明路径进行读写，不感知内容哈希或磁盘池概念。
 /// </summary>
 public sealed class LocalFileSystemDevice : IPhysicalDevice
 {
@@ -23,7 +23,7 @@ public sealed class LocalFileSystemDevice : IPhysicalDevice
     /// Streams <paramref name="content"/> to <paramref name="path"/> with a bounded buffer,
     /// avoiding buffering the whole payload in memory. Used by the I/O pipeline for
     /// large, (possibly non-seekable) source streams.
-/// 中文翻译：以有界缓冲区将 <paramref name="content"/> 流式写入 <paramref name="path"/>，避免整段载荷驻留内存，供 I/O 管道用于处理大体积（可能不可定位）的源流。
+/// 以有界缓冲区将 <paramref name="content"/> 流式写入 <paramref name="path"/>，避免整段载荷驻留内存，供 I/O 管道用于处理大体积（可能不可定位）的源流。
 /// </summary>
     public Task WriteBlockStreamAsync(string path, Stream content, CancellationToken ct)
     {

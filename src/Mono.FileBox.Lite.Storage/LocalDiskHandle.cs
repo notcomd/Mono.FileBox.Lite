@@ -9,7 +9,7 @@ namespace Mono.FileBox.Lite.Storage;
 /// <summary>
 /// Concrete <see cref="IDiskHandle"/> for local storage. Carries the pool root path
 /// that the I/O pipeline needs to resolve physical block locations.
-/// 中文翻译：本地存储的具体 <see cref="IDiskHandle"/> 实现，携带 I/O 管道用于解析物理块位置所需的池根路径。
+/// 本地存储的具体 <see cref="IDiskHandle"/> 实现，携带 I/O 管道用于解析物理块位置所需的池根路径。
 /// </summary>
 public sealed class LocalDiskHandle : IDiskHandle
 {

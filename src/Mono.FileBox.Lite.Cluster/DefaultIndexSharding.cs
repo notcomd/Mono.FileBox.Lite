@@ -4,7 +4,7 @@ using Mono.FileBox.Lite.Abstractions.Cluster;
 namespace Mono.FileBox.Lite.Cluster.Tiering;
 
 /// <summary>Namespace -> shard resolution (<c>NamespaceId</c> is the partition key)
-/// 中文翻译：命名空间到分片（shard）的解析，以 <c>NamespaceId</c> 作为分区键
+/// 命名空间到分片（shard）的解析，以 <c>NamespaceId</c> 作为分区键
 /// </summary>
 public sealed class DefaultIndexSharding : IIndexSharding
 {

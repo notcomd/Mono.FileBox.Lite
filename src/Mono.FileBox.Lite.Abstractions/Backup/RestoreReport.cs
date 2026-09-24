@@ -1,7 +1,7 @@
 // 本文件包含类型 RestoreReport：恢复操作的结果。
 namespace Mono.FileBox.Lite.Abstractions.Backup;
 
-/// <summary>Outcome of a restore operation. 中文翻译：一次恢复操作的结果报告。</summary>
+/// <summary>Outcome of a restore operation. 一次恢复操作的结果报告。</summary>
 public sealed class RestoreReport
 {
     public long RestoredCount { get; init; }

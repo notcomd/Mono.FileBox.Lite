@@ -1,7 +1,7 @@
 // 本文件包含类型 IndexQuery：完整的多维索引查询。
 namespace Mono.FileBox.Lite.Abstractions.Index;
 
-/// <summary>A full multi-dimensional index query. 中文翻译：完整的多维索引查询承载对象。</summary>
+/// <summary>A full multi-dimensional index query. 完整的多维索引查询承载对象。</summary>
 public sealed class IndexQuery
 {
     public string NamespaceId { get; init; } = string.Empty;

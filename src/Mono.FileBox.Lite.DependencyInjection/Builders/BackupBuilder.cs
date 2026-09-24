@@ -14,7 +14,7 @@ using Mono.FileBox.Lite.Abstractions.UseCases;
 namespace Mono.FileBox.Lite.DependencyInjection.Builders;
 
 /// <summary>Fluent builder for the backup wiring and target registration.
-/// 中文翻译：用于备份装配与目标注册的流式（fluent）构建器。</summary>
+/// 用于备份装配与目标注册的流式（fluent）构建器。</summary>
 public sealed class BackupBuilder
 {
     private readonly IServiceCollection _services;

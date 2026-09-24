@@ -7,7 +7,7 @@ namespace Mono.FileBox.Lite.Index.Planning;
 /// Builds an execution plan for a query. Extracts predicates, picks the most selective
 /// claimable provider as the driving scan, and uses the remaining scans as filters.
 /// Falls back to a full scan when no predicate is claimable.
-/// 中文翻译：为查询构建执行计划。提取谓词，选出最具选择性的可认领提供方作为驱动扫描，
+/// 为查询构建执行计划。提取谓词，选出最具选择性的可认领提供方作为驱动扫描，
 /// 其余扫描作为过滤条件；当没有可认领的谓词时回退为全表扫描。
 /// </summary>
 public sealed class QueryPlanner : IQueryPlanner

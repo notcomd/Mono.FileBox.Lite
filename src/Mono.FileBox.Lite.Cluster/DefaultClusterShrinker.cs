@@ -5,7 +5,7 @@ using Mono.FileBox.Lite.Abstractions.Subsystems;
 namespace Mono.FileBox.Lite.Cluster;
 
 /// <summary>Cluster shrinker for standalone operation (no-op drain/remove)
-/// 中文翻译：用于独立运行模式的集群收缩器（排空/移除均为空操作）
+/// 用于独立运行模式的集群收缩器（排空/移除均为空操作）
 /// </summary>
 public sealed class DefaultClusterShrinker : IClusterShrinker
 {

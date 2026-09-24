@@ -6,7 +6,7 @@ using Mono.FileBox.Lite.Abstractions;
 namespace Mono.FileBox.Lite.StateMachine;
 
 /// <summary>Fluent builder for a single transition, mirroring the documented composition API.
-/// 中文翻译：用于声明单条状态转移的流式构建器，与文档化的组合 API 保持一致。</summary>
+/// 用于声明单条状态转移的流式构建器，与文档化的组合 API 保持一致。</summary>
 public sealed class TransitionBuilder
 {
     private readonly TransitionRegistry _registry;

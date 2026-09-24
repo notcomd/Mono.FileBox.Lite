@@ -5,7 +5,7 @@ using Mono.FileBox.Lite.Abstractions.Index;
 namespace Mono.FileBox.Lite.Index.Providers;
 
 /// <summary>Tag inverted-index provider.
-/// 中文翻译：标签(Tag)倒排索引提供方。
+/// 标签(Tag)倒排索引提供方。
 /// </summary>
 public sealed class TagInvertedIndexProvider : SingleKindProvider
 {

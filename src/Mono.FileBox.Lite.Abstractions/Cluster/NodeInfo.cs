@@ -1,7 +1,7 @@
 // 本文件包含类型 NodeInfo：集群中节点的描述符。
 namespace Mono.FileBox.Lite.Abstractions.Cluster;
 
-/// <summary>Descriptor for a node in the cluster. 中文翻译：集群中某个节点的描述符。</summary>
+/// <summary>Descriptor for a node in the cluster. 集群中某个节点的描述符。</summary>
 public sealed class NodeInfo
 {
     public string NodeId { get; init; } = string.Empty;

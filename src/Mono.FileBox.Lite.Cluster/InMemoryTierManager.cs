@@ -4,7 +4,7 @@ using Mono.FileBox.Lite.Abstractions.Cluster;
 namespace Mono.FileBox.Lite.Cluster.Tiering;
 
 /// <summary>In-memory tier registry and migration bookkeeping
-/// 中文翻译：内存中的分层（tier）注册表与迁移记账
+/// 内存中的分层（tier）注册表与迁移记账
 /// </summary>
 public sealed class InMemoryTierManager : ITierManager
 {

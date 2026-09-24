@@ -9,7 +9,7 @@ using Mono.FileBox.Lite.Abstractions.Subsystems;
 namespace Mono.FileBox.Lite.DependencyInjection.Builders;
 
 /// <summary>Fluent builder for the storage engine wiring.
-/// 中文翻译：用于存储引擎装配的流式（fluent）构建器。</summary>
+/// 用于存储引擎装配的流式（fluent）构建器。</summary>
 public sealed class StorageBuilder
 {
     private readonly IServiceCollection _services;

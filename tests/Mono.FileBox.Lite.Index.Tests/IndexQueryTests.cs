@@ -11,7 +11,7 @@ namespace Mono.FileBox.Lite.Index.Tests;
 /// <summary>
 /// Exercises the query engine directly: predicate filtering (prefix/tag/tier/state/
 /// time/size), sorting and stable cursor pagination.
-/// 中文翻译：直接测试索引查询引擎：谓词过滤（前缀/标签/存储层/状态/时间/大小）、排序及稳定的游标分页。
+/// 直接测试索引查询引擎：谓词过滤（前缀/标签/存储层/状态/时间/大小）、排序及稳定的游标分页。
 /// </summary>
 public class IndexQueryTests
 {

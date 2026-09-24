@@ -7,7 +7,7 @@ namespace Mono.FileBox.Lite.Configuration;
 /// Validates a <see cref="FileBoxOptions"/> against the documented built-in rules.
 /// Startup validation failure rejects startup; reload validation failure keeps the old
 /// configuration.
-/// 中文翻译：依据文档中内置规则对 <see cref="FileBoxOptions"/> 进行校验。启动时校验失败将拒绝启动；重载时校验失败则保留旧配置。
+/// 依据文档中内置规则对 <see cref="FileBoxOptions"/> 进行校验。启动时校验失败将拒绝启动；重载时校验失败则保留旧配置。
 /// </summary>
 public sealed class FileBoxOptionsValidator : IOptionsValidator<FileBoxOptions>
 {

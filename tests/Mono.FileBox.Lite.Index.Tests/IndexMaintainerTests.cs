@@ -12,7 +12,7 @@ namespace Mono.FileBox.Lite.Index.Tests;
 /// Verifies index-consistency maintenance: the physical blocks are the authoritative
 /// source, so VerifyAsync must flag entries whose block is missing and RepairAsync must
 /// prune them.
-/// 中文翻译：验证索引一致性维护：物理数据块才是权威来源，VerifyAsync 必须标记数据块缺失的条目，RepairAsync 必须将其清理删除。
+/// 验证索引一致性维护：物理数据块才是权威来源，VerifyAsync 必须标记数据块缺失的条目，RepairAsync 必须将其清理删除。
 /// </summary>
 public class IndexMaintainerTests
 {
@@ -80,7 +80,7 @@ public class IndexMaintainerTests
     };
 
     /// <summary>A fake object writer whose existence reflects a set of "physical" hashes.
-    /// 中文翻译：一个假对象写入器，其存在性反映一组“物理”哈希。</summary>
+    /// 一个假对象写入器，其存在性反映一组“物理”哈希。</summary>
     private sealed class FakeObjectWriter : IObjectWriter
     {
         private readonly HashSet<string> _present;

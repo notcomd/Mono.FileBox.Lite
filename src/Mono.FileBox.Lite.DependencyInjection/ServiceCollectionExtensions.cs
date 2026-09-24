@@ -36,7 +36,7 @@ using Mono.FileBox.Lite.UseCases;
 namespace Mono.FileBox.Lite.DependencyInjection;
 
 /// <summary>Composes all Mono.FileBox.Lite components into an <see cref="IServiceCollection"/>.
-/// 中文翻译：将 Mono.FileBox.Lite 的全部组件组装进一个 IServiceCollection 中。</summary>
+/// 将 Mono.FileBox.Lite 的全部组件组装进一个 IServiceCollection 中。</summary>
 public static class FileBoxServiceCollectionExtensions
 {
     // -------- Core (L0/L3 + subsystems defaults) --------

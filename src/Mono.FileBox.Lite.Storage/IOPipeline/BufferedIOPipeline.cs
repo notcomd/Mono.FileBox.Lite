@@ -6,7 +6,7 @@ namespace Mono.FileBox.Lite.Storage.IOPipeline;
 /// <summary>
 /// Buffered I/O pipeline. Serializes the content to bytes, writes through the physical
 /// device, and supports offset/length range reads.
-/// 中文翻译：带缓冲的 I/O 管道：将内容序列化为字节经物理设备写入，并支持按偏移/长度进行范围读取。
+/// 带缓冲的 I/O 管道：将内容序列化为字节经物理设备写入，并支持按偏移/长度进行范围读取。
 /// </summary>
 public sealed class BufferedIOPipeline : IIOPipeline
 {

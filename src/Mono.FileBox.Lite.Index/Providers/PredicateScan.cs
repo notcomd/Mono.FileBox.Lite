@@ -7,7 +7,7 @@ namespace Mono.FileBox.Lite.Index.Providers;
 /// <summary>
 /// A scan over a single predicate that yields candidate content hashes by filtering
 /// the namespace's entries. Lightweight in-memory implementation of the index scan.
-/// 中文翻译：针对单一谓词的扫描：通过过滤命名空间内的条目来产出候选内容哈希，
+/// 针对单一谓词的扫描：通过过滤命名空间内的条目来产出候选内容哈希，
 /// 是索引扫描的轻量级内存实现。
 /// </summary>
 public sealed class PredicateScan : IIndexScan

@@ -6,7 +6,7 @@ namespace Mono.FileBox.Lite.Index.Planning;
 /// <summary>
 /// Expands a full <see cref="IndexQuery"/> into a list of <see cref="IndexPredicate"/>
 /// that can be claimed by index providers.
-/// 中文翻译：将一个完整的 <see cref="IndexQuery"/> 展开为一组可由索引提供方认领的
+/// 将一个完整的 <see cref="IndexQuery"/> 展开为一组可由索引提供方认领的
 /// <see cref="IndexPredicate"/> 列表。
 /// </summary>
 public static class QueryPredicateExtractor

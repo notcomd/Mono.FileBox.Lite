@@ -9,7 +9,7 @@ namespace Mono.FileBox.Lite.Index.Planning;
 /// Executes a query plan: runs the driving scan, intersects filter scans, materializes
 /// entries, applies an authoritative final filter from the source query, sorts, and
 /// paginates via a stable cursor.
-/// 中文翻译：执行查询计划：运行驱动扫描、与各过滤扫描取交集、物化条目、应用来自原始查询的
+/// 执行查询计划：运行驱动扫描、与各过滤扫描取交集、物化条目、应用来自原始查询的
 /// 权威性最终过滤，进行排序，并通过稳定的游标完成分页。
 /// </summary>
 public sealed class QueryExecutor : IQueryExecutor

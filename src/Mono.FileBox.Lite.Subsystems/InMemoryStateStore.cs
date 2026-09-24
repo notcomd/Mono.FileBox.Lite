@@ -8,7 +8,7 @@ using Mono.FileBox.Lite.Abstractions.Subsystems;
 namespace Mono.FileBox.Lite.Subsystems;
 
 /// <summary>In-memory state store with optimistic-concurrency conflict reporting.
-/// 中文翻译：具有乐观并发冲突报告能力的内存状态存储。</summary>
+/// 具有乐观并发冲突报告能力的内存状态存储。</summary>
     /// <remarks>
     /// <b>并发语义</b>：基于 <see cref="ConcurrentDictionary{TKey,TValue}"/>，对不同 content hash
     /// 的读写可在多个线程并行；对同一 hash 的 <see cref="SaveAsync"/> 使用原子 <c>AddOrUpdate</c>

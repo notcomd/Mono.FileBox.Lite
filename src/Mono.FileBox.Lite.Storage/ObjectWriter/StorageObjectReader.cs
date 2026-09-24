@@ -7,7 +7,7 @@ namespace Mono.FileBox.Lite.Storage.ObjectWriter;
 /// Range reader. For legacy (single-block) objects it reads one block slice; for
 /// chunked objects it maps the requested [offset, length) range across chunk covers
 /// and concatenates the per-chunk slices into the returned stream.
-/// 中文翻译：范围读取器：对（单块）旧式对象读取一个块切片；对分块对象则将请求的 [offset, length) 范围映射到涉及的分块上，并将各分块切片拼接为返回的流。
+/// 范围读取器：对（单块）旧式对象读取一个块切片；对分块对象则将请求的 [offset, length) 范围映射到涉及的分块上，并将各分块切片拼接为返回的流。
 /// </summary>
 public sealed class StorageObjectReader : IObjectReader
 {

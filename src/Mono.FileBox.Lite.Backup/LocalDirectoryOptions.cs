@@ -3,7 +3,7 @@
 namespace Mono.FileBox.Lite.Backup.Targets;
 
 /// <summary>Options for a local-directory backup target.
-/// 中文翻译：本地目录备份目标的选项。</summary>
+/// 本地目录备份目标的选项。</summary>
 public sealed class LocalDirectoryOptions
 {
     public string RootPath { get; set; } = string.Empty;

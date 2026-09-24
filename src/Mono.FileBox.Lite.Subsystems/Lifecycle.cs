@@ -8,7 +8,7 @@ namespace Mono.FileBox.Lite.Subsystems.Lifecycle;
 /// Periodically scans objects in the <see cref="ObjectState.Available"/> state and, when
 /// configured <see cref="ILifecyclePolicy"/> permits, attempts an <c>Archive</c> or
 /// <c>Expire</c> transition. Runs as part of the host's scheduled scan loop.
-/// 中文翻译：定期扫描处于 <see cref="ObjectState.Available"/> 状态的对象，当配置的 <see cref="ILifecyclePolicy"/> 允许时尝试执行 <c>Archive</c> 或 <c>Expire</c> 转移，作为宿主计划扫描循环的一部分运行。
+/// 定期扫描处于 <see cref="ObjectState.Available"/> 状态的对象，当配置的 <see cref="ILifecyclePolicy"/> 允许时尝试执行 <c>Archive</c> 或 <c>Expire</c> 转移，作为宿主计划扫描循环的一部分运行。
 /// </summary>
 /// <remarks>
 /// <b>并发语义</b>：调度器自身不启动任何线程；它是宿主（托管进程）在某定时循环里调用的

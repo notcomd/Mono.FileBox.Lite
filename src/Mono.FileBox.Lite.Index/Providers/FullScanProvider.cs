@@ -7,7 +7,7 @@ namespace Mono.FileBox.Lite.Index.Providers;
 /// <summary>
 /// Fallback provider that returns the whole namespace as the candidate set. Used as
 /// the driver when the query has no claimable predicate.
-/// 中文翻译：回退提供方：将整个命名空间作为候选集合返回。当查询没有可认领谓词时作为驱动扫描使用。
+/// 回退提供方：将整个命名空间作为候选集合返回。当查询没有可认领谓词时作为驱动扫描使用。
 /// </summary>
 public sealed class FullScanProvider : IIndexProvider
 {

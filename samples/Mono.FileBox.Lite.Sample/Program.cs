@@ -15,7 +15,7 @@ namespace Mono.FileBox.Lite.Sample;
 /// Stress verification: uploads a large object and samples the process's memory
 /// (working set + managed heap), CPU usage and the on-disk footprint written by the
 /// storage engine.
-/// 中文翻译：压测验证：上传一个超大对象并采样进程内存（工作集 + 托管堆）、CPU 使用率以及存储引擎写入的磁盘占用。
+/// 压测验证：上传一个超大对象并采样进程内存（工作集 + 托管堆）、CPU 使用率以及存储引擎写入的磁盘占用。
 /// </summary>
 public static class Program
 {
@@ -110,8 +110,11 @@ public static class Program
             // 8. Concurrent small-file upload (fixed concurrency).
             var concurrentFiles = long.TryParse(
                 Environment.GetEnvironmentVariable("MONOFILEBOX_CONCURRENT_FILES"), out var cf)
-                ? (int)cf : 200;
-            var concurrentOk = await ConcurrentUploadAsync(provider, concurrentFiles, concurrency: 20);
+                ? (int)cf : 500;
+            var concurrency = long.TryParse(
+                Environment.GetEnvironmentVariable("MONOFILEBOX_CONCURRENCY"), out var cc)
+                ? (int)cc : 500;
+            var concurrentOk = await ConcurrentUploadAsync(provider, concurrentFiles, concurrency);
 
             Console.WriteLine();
             if (concurrentOk != 0)
@@ -179,11 +182,11 @@ public static class Program
     }
 
     /// <summary>
-/// 并发压测：以固定 <paramref name="concurrency"/>（示例为 20）用
-/// <c>Parallel.ForEachAsync</c> 并发上传 <paramref name="files"/> 个随机大小对象
-/// （1–20 MB）。用于验证引擎在单进程多线程（线程池）并发调用下：不同对象并行、无失败/
-/// 冲突、去重哈希唯一、全部入索引。
-/// </summary>
+    /// 并发压测：以固定 <paramref name="concurrency"/>（示例为 500）用
+    /// <c>Parallel.ForEachAsync</c> 并发上传 <paramref name="files"/> 个随机大小对象
+    /// （1–20 MB）。用于验证引擎在单进程多线程（线程池）并发调用下：不同对象并行、无失败/
+    /// 冲突、去重哈希唯一、全部入索引。
+    /// </summary>
     private static async Task<int> ConcurrentUploadAsync(
         IServiceProvider provider, int files, int concurrency)
     {
@@ -207,9 +210,10 @@ public static class Program
             async (i, ct) =>
             {
                 var size = Random.Shared.Next(minSize, maxSize + 1); // random in [1..20] MB
-                var data = RandomContent(i, size);
                 Interlocked.Add(ref totalBytes, size);
-                using var content = new MemoryStream(data);
+                // 可回放生成流：按位置现场算字节，O(1) 内存，不物化整份文件；
+                // 以 i 作种子保证不同文件内容不同、哈希唯一。
+                using var content = new PatternStream(size, seed: i);
                 var res = await put.ExecuteAsync(new PutObjectCommand
                 {
                     NamespaceId = "ns1",
@@ -321,17 +325,6 @@ public static class Program
         return BitConverter.ToString(sha.Hash!).Replace("-", "").ToLowerInvariant();
     }
 
-    private static byte[] RandomContent(int i, int size)
-    {
-        var bytes = new byte[size];
-        for (var k = 0; k < size; k++)
-        {
-            var v = (long)i * 2654435761L + (long)k * 1103515245L + 12345;
-            bytes[k] = (byte)((uint)v >> 24);
-        }
-        return bytes;
-    }
-
     private static string ResolvePoolRoot(IServiceProvider provider)
     {
         var options = provider.GetRequiredService<FileBoxOptions>();
@@ -396,7 +389,7 @@ public static class Program
     /// demand (O(1) memory). Because it is replayable, the engine hashes a pass and then
     /// stream-writes a rewind, both reading identical bytes — so even a multi-gigabyte
     /// upload never materializes the payload in memory.
-    /// 中文翻译：一个可寻址、确定性的数据流，按读取位置按需生成字节（O(1) 内存）。由于可回放，引擎先跑一遍哈希再回卷流式写入，两次读到完全相同的字节——因此即使几 GB 的上传也无需在内存中实例化整个负载。
+    /// 一个可寻址、确定性的数据流，按读取位置按需生成字节（O(1) 内存）。由于可回放，引擎先跑一遍哈希再回卷流式写入，两次读到完全相同的字节——因此即使几 GB 的上传也无需在内存中实例化整个负载。
     /// </summary>
     private sealed class PatternStream : Stream
     {

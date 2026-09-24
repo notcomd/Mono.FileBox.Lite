@@ -5,7 +5,7 @@ using Mono.FileBox.Lite.Abstractions.Index;
 namespace Mono.FileBox.Lite.Index.Providers;
 
 /// <summary>State bitmap provider.
-/// 中文翻译：状态(State)位图索引提供方。
+/// 状态(State)位图索引提供方。
 /// </summary>
 public sealed class StateBitmapProvider : SingleKindProvider
 {

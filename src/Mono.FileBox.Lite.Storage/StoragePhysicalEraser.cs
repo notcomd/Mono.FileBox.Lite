@@ -9,7 +9,7 @@ namespace Mono.FileBox.Lite.Storage;
 /// Physical erasure for the Purge transition. Deletes the physical block (legacy) or,
 /// for chunked objects, the manifest and every chunk block, then removes the index
 /// entry — confirming both before returning.
-/// 中文翻译：为 Purge 阶段提供物理擦除能力：删除物理块（旧式对象），或对分块对象删除清单及所有分块块，随后移除索引条目——并在返回前同时确认两者。
+/// 为 Purge 阶段提供物理擦除能力：删除物理块（旧式对象），或对分块对象删除清单及所有分块块，随后移除索引条目——并在返回前同时确认两者。
 /// </summary>
 public sealed class StoragePhysicalEraser : IPhysicalEraser, ITransitionAction
 {

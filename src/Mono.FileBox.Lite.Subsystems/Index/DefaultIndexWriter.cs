@@ -13,7 +13,7 @@ namespace Mono.FileBox.Lite.Subsystems.Index;
 /// Index writer that persists <see cref="IndexEntry"/> blobs through the L0
 /// <see cref="IEntryStore"/> and mirrors them into the ordered key/value store for
 /// B-tree-style primary scanning. It also acts as the <c>Index</c> transition action.
-/// 中文翻译：索引写入器，通过 L0 <see cref="IEntryStore"/> 持久化 <see cref="IndexEntry"/> 数据块，并将其镜像到有序键值存储以支持类 B 树的主键扫描；同时充当 <c>Index</c> 转移动作。
+/// 索引写入器，通过 L0 <see cref="IEntryStore"/> 持久化 <see cref="IndexEntry"/> 数据块，并将其镜像到有序键值存储以支持类 B 树的主键扫描；同时充当 <c>Index</c> 转移动作。
 /// </summary>
 public sealed class DefaultIndexWriter : IIndexWriter, ITransitionAction
 {

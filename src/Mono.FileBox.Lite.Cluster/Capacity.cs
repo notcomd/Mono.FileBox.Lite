@@ -6,7 +6,7 @@ namespace Mono.FileBox.Lite.Cluster.Capacity;
 /// <summary>
 /// Capacity monitor that aggregates per-pool usage from the disk selector and raises
 /// threshold callbacks whenever the cluster crosses a watermark.
-/// 中文翻译：容量监视器，从磁盘选择器聚合各存储池（pool）的使用情况，并在集群跨越水位线时触发阈值回调。
+/// 容量监视器，从磁盘选择器聚合各存储池（pool）的使用情况，并在集群跨越水位线时触发阈值回调。
 /// </summary>
 public sealed class DefaultCapacityMonitor : ICapacityMonitor
 {

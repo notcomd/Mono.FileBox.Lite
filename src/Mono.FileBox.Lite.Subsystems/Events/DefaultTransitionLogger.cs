@@ -9,7 +9,7 @@ namespace Mono.FileBox.Lite.Subsystems.Events;
 /// Console transition logger. Writes one line per committed transition. Also acts as an
 /// <see cref="ITransitionObserver"/> so it can be attached via
 /// <c>.Observe&lt;ITransitionLogger&gt;()</c>.
-/// 中文翻译：控制台转移日志记录器，每次已提交的转移写入一行日志；同时实现 <see cref="ITransitionObserver"/>，可通过 <c>.Observe&lt;ITransitionLogger&gt;()</c> 挂接。
+/// 控制台转移日志记录器，每次已提交的转移写入一行日志；同时实现 <see cref="ITransitionObserver"/>，可通过 <c>.Observe&lt;ITransitionLogger&gt;()</c> 挂接。
 /// </summary>
 public sealed class DefaultTransitionLogger : ITransitionLogger, ITransitionObserver
 {

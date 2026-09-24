@@ -3,7 +3,7 @@ using Mono.FileBox.Lite.Abstractions.Index;
 
 namespace Mono.FileBox.Lite.Abstractions.Storage;
 
-/// <summary>Information about a storage disk pool. 中文翻译：存储磁盘池的描述信息。</summary>
+/// <summary>Information about a storage disk pool. 存储磁盘池的描述信息。</summary>
 public sealed class DiskPoolInfo
 {
     public string PoolId { get; init; } = string.Empty;

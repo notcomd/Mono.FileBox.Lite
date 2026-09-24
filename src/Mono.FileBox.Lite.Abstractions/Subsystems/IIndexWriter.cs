@@ -3,7 +3,8 @@ using Mono.FileBox.Lite.Abstractions.Index;
 
 namespace Mono.FileBox.Lite.Abstractions.Subsystems;
 
-/// <summary>Writes/updates/removes index entries, kept in sync with the state machine. 中文翻译：写入/更新/移除索引条目，并与状态机保持同步。</summary>
+/// <summary>Writes/updates/removes index entries, kept in sync with the state machine. 
+/// 写入/更新/移除索引条目，并与状态机保持同步。</summary>
 public interface IIndexWriter
 {
     Task WriteAsync(IObjectContext ctx, CancellationToken ct);

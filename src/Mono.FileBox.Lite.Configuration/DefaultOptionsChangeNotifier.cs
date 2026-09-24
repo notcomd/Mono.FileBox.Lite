@@ -5,7 +5,7 @@ namespace Mono.FileBox.Lite.Configuration;
 /// <summary>
 /// Simple options change notifier. Subscribers receive callbacks on reload; reloading
 /// a fresh snapshot is delegated to the caller via an injected refresh function.
-/// 中文翻译：简单的选项变更通知器。订阅者在重新加载时收到回调；刷新最新快照的逻辑通过注入的刷新函数委派给调用方。
+/// 简单的选项变更通知器。订阅者在重新加载时收到回调；刷新最新快照的逻辑通过注入的刷新函数委派给调用方。
 /// </summary>
 public sealed class DefaultOptionsChangeNotifier : IOptionsChangeNotifier
 {

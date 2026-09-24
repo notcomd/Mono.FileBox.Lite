@@ -4,7 +4,7 @@ namespace Mono.FileBox.Lite.StateMachine;
 
 /// <summary>
 /// Creates <see cref="DefaultObjectContext"/> instances for the use-case layer.
-/// 中文翻译：为用例层创建 <see cref="DefaultObjectContext"/> 实例。
+/// 为用例层创建 <see cref="DefaultObjectContext"/> 实例。
 /// </summary>
 public sealed class DefaultObjectContextFactory : IObjectContextFactory
 {

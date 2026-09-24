@@ -5,7 +5,7 @@ using System.Text;
 namespace Mono.FileBox.Lite.Cluster.HashRing;
 
 /// <summary>Stable 64-bit hash used to place nodes/virtual nodes on the ring
-/// 中文翻译：用于将节点/虚拟节点放置到哈希环上的稳定的 64 位哈希
+/// 用于将节点/虚拟节点放置到哈希环上的稳定的 64 位哈希
 /// </summary>
 internal static class StableHash
 {

@@ -8,7 +8,7 @@ namespace Mono.FileBox.Lite.UseCases;
 
 // File: ArchiveObjectUseCase — archive use case that fires the Archive transition.
 /// <summary>Archive: fires the <c>Archive</c> transition.
-/// 中文翻译：归档：触发 Archive 状态流转。</summary>
+/// 归档：触发 Archive 状态流转。</summary>
 public sealed class ArchiveObjectUseCase : IArchiveObjectUseCase
 {
     private readonly IObjectStateMachine _machine;

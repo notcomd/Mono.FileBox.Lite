@@ -5,7 +5,7 @@ using Mono.FileBox.Lite.Abstractions.Backup;
 namespace Mono.FileBox.Lite.Backup.Targets;
 
 /// <summary>Default registry-based target resolver.
-/// 中文翻译：基于注册表（registry）的默认备份目标解析器。</summary>
+/// 基于注册表（registry）的默认备份目标解析器。</summary>
 public sealed class DefaultBackupTargetResolver : IBackupTargetResolver
 {
     private readonly Dictionary<string, IBackupTarget> _targets = new(StringComparer.Ordinal);

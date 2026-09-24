@@ -5,7 +5,7 @@ using Mono.FileBox.Lite.Abstractions.Subsystems;
 namespace Mono.FileBox.Lite.Index.Planning;
 
 /// <summary>Default read path: plan then execute.
-/// 中文翻译：默认读取路径：先规划(生成执行计划)再执行。
+/// 默认读取路径：先规划(生成执行计划)再执行。
 /// </summary>
 public sealed class DefaultIndexReader : IIndexReader
 {

@@ -9,7 +9,7 @@ namespace Mono.FileBox.Lite.UseCases;
 /// <summary>
 /// Reverses completed put transitions. Only the index entry is removed (leaving the
 /// physical block intact), mirroring the documented rollback to <c>Stored</c>.
-/// 中文翻译：在失败时撤销已完成的 put 状态流转。仅移除索引条目（保留物理块不动），与文档中回滚至 Stored 的说明保持一致。
+/// 在失败时撤销已完成的 put 状态流转。仅移除索引条目（保留物理块不动），与文档中回滚至 Stored 的说明保持一致。
 /// </summary>
 public sealed class PutObjectRollback : IPutObjectRollback
 {

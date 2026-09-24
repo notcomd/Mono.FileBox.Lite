@@ -6,7 +6,7 @@ namespace Mono.FileBox.Lite.Abstractions;
 /// state machine to record derived values (content hash, current state) as the pipeline
 /// progresses. Implemented by the concrete mutable context type; guards, observers and
 /// downstream primitives should depend on the immutable <see cref="IObjectContext"/>.
-/// 中文翻译：IObjectContext 的可变视图，供转换操作与状态机在管线推进过程中记录派生值（内容哈希、当前状态）；守卫、观察器及下游原语应依赖不可变的 IObjectContext。
+/// IObjectContext 的可变视图，供转换操作与状态机在管线推进过程中记录派生值（内容哈希、当前状态）；守卫、观察器及下游原语应依赖不可变的 IObjectContext。
 /// </summary>
 public interface IMutableObjectContext : IObjectContext
 {

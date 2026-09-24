@@ -9,7 +9,7 @@ using Mono.FileBox.Lite.DependencyInjection;
 namespace Mono.FileBox.Lite.Functional.Tests;
 
 /// <summary>Object backup: full -> verify -> restore, incremental only-new, point queries.
-/// 中文翻译：对象备份：全量 → 校验 → 恢复、增量仅新增、时间点查询。</summary>
+/// 对象备份：全量 → 校验 → 恢复、增量仅新增、时间点查询。</summary>
 public class BackupTests
 {
     private const string Ns = "app";

@@ -7,7 +7,7 @@ namespace Mono.FileBox.Lite.UseCases;
 
 // File: RestoreObjectUseCase — restore use case that fires the Restore transition.
 /// <summary>Restore: fires the <c>Restore</c> transition.
-/// 中文翻译：恢复：触发 Restore 状态流转。</summary>
+/// 恢复：触发 Restore 状态流转。</summary>
 public sealed class RestoreObjectUseCase : IRestoreObjectUseCase
 {
     private readonly IObjectStateMachine _machine;

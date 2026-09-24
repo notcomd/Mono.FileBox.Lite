@@ -8,7 +8,7 @@ using Mono.FileBox.Lite.Abstractions.Subsystems;
 namespace Mono.FileBox.Lite.Subsystems;
 
 /// <summary>In-memory node registry (single node in standalone mode).
-/// 中文翻译：内存节点注册表（单机模式下的单节点）。</summary>
+/// 内存节点注册表（单机模式下的单节点）。</summary>
 public sealed class InMemoryNodeRegistry : INodeRegistry
 {
     private readonly ConcurrentDictionary<string, NodeInfo> _nodes = new();

@@ -4,7 +4,7 @@ namespace Mono.FileBox.Lite.Abstractions.Subsystems;
 /// <summary>
 /// Distributed lock used as a transition pre-condition. Its single-node default
 /// implementation always returns <c>true</c>.
-/// 中文翻译：作为转换前置条件使用的分布式锁；其单节点默认实现恒返回 true。
+/// 作为转换前置条件使用的分布式锁；其单节点默认实现恒返回 true。
 /// </summary>
 public interface IDistributedLock
 {

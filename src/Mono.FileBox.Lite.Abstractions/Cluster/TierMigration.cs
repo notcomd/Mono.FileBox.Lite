@@ -3,7 +3,7 @@ using Mono.FileBox.Lite.Abstractions.Index;
 
 namespace Mono.FileBox.Lite.Abstractions.Cluster;
 
-/// <summary>Describes a tier-to-tier migration. 中文翻译：描述一次层级到层级的对象迁移。</summary>
+/// <summary>Describes a tier-to-tier migration. 描述一次层级到层级的对象迁移。</summary>
 public sealed class TierMigration
 {
     public string ContentHash { get; init; } = string.Empty;

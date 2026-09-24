@@ -4,7 +4,7 @@ namespace Mono.FileBox.Lite.Abstractions;
 /// <summary>
 /// The per-object context threaded through the lifecycle state machine and all
 /// of its guards, actions and observers.
-/// 中文翻译：贯穿生命周期状态机及其所有守卫、操作与观察器的 per-object（单对象）上下文。
+/// 贯穿生命周期状态机及其所有守卫、操作与观察器的 per-object（单对象）上下文。
 /// </summary>
 public interface IObjectContext
 {

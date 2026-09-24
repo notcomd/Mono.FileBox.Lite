@@ -8,7 +8,7 @@ using Mono.FileBox.Lite.Abstractions.UseCases;
 namespace Mono.FileBox.Lite.DependencyInjection.Builders;
 
 /// <summary>Fluent builder for use-case registration.
-/// 中文翻译：用于用例注册的流式（fluent）构建器。</summary>
+/// 用于用例注册的流式（fluent）构建器。</summary>
 public sealed class UseCasesBuilder
 {
     private readonly IServiceCollection _services;

@@ -3,7 +3,7 @@ using Mono.FileBox.Lite.Abstractions.Index;
 
 namespace Mono.FileBox.Lite.Abstractions.Backup;
 
-/// <summary>A single object entry inside a backup manifest. 中文翻译：备份清单内的一条对象条目，描述被备份对象的元数据信息。</summary>
+/// <summary>A single object entry inside a backup manifest. 备份清单内的一条对象条目，描述被备份对象的元数据信息。</summary>
 public sealed class BackupEntry
 {
     public string ContentHash { get; init; } = string.Empty;

@@ -1,7 +1,7 @@
 // 本文件包含类型 IBackupPointStore：持久化备份点元数据。
 namespace Mono.FileBox.Lite.Abstractions.Backup;
 
-/// <summary>Persists backup-point metadata. 中文翻译：持久化备份点元数据的存储。</summary>
+/// <summary>Persists backup-point metadata. 持久化备份点元数据的存储。</summary>
 public interface IBackupPointStore
 {
     Task SaveAsync(BackupPoint point, CancellationToken ct);

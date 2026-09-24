@@ -7,7 +7,7 @@ namespace Mono.FileBox.Lite.Index;
 /// Maintains index consistency. The physical blocks are authoritative; the index is a
 /// derived projection. Verify detects entries whose physical block is absent, and Repair
 /// removes such orphaned entries.
-/// 中文翻译：维护索引一致性。物理数据块是权威的，索引只是派生的投影；
+/// 维护索引一致性。物理数据块是权威的，索引只是派生的投影；
 /// Verify 用于检测物理块缺失的条目，Repair 用于清理这些孤立条目。
 /// </summary>
 public sealed class IndexMaintainer : IIndexMaintainer

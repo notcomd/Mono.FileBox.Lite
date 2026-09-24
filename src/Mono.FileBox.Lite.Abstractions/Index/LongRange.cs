@@ -1,7 +1,7 @@
 // 本文件包含类型 LongRange：64 位值的闭区间范围。
 namespace Mono.FileBox.Lite.Abstractions.Index;
 
-/// <summary>Inclusive range of 64-bit values. 中文翻译：64 位整数值的闭区间范围。</summary>
+/// <summary>Inclusive range of 64-bit values. 64 位整数值的闭区间范围。</summary>
 public sealed class LongRange
 {
     public long? Min { get; init; }

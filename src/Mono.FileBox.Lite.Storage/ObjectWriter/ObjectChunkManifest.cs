@@ -9,7 +9,7 @@ namespace Mono.FileBox.Lite.Storage.ObjectWriter;
 /// Chunks are owned by the object (no cross-object sharing): the manifest lists the
 /// chunk hashes in order, and the physical chunk blocks live under the shared block
 /// pool keyed by chunk hash.
-/// 中文翻译：对象被拆分为固定大小分块时产生的对象级清单；分块归对象所有（不跨对象共享），清单按顺序列出分块哈希，物理分块块位于共享块池中并以分块哈希为键。
+/// 对象被拆分为固定大小分块时产生的对象级清单；分块归对象所有（不跨对象共享），清单按顺序列出分块哈希，物理分块块位于共享块池中并以分块哈希为键。
 /// </summary>
 public sealed class ObjectChunkManifest
 {

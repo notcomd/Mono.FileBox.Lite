@@ -1,7 +1,7 @@
 // 本文件包含类型 IEntryStore：物化并序列化完整的 IndexEntry。
 namespace Mono.FileBox.Lite.Abstractions.Index;
 
-/// <summary>Materializes and serializes a full <see cref="IndexEntry"/>. 中文翻译：对完整 IndexEntry 进行物化与持久化存取。</summary>
+/// <summary>Materializes and serializes a full <see cref="IndexEntry"/>. 对完整 IndexEntry 进行物化与持久化存取。</summary>
 public interface IEntryStore
 {
     Task PutAsync(string contentHash, IndexEntry entry, CancellationToken ct);

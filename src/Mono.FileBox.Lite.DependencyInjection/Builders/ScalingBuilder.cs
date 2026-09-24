@@ -8,7 +8,7 @@ using Mono.FileBox.Lite.Abstractions.Cluster;
 namespace Mono.FileBox.Lite.DependencyInjection.Builders;
 
 /// <summary>Fluent builder for cluster scaling wiring.
-/// 中文翻译：用于集群伸缩装配的流式（fluent）构建器。</summary>
+/// 用于集群伸缩装配的流式（fluent）构建器。</summary>
 public sealed class ScalingBuilder
 {
     private readonly IServiceCollection _services;

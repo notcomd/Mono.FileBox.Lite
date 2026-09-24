@@ -3,7 +3,7 @@ using Mono.FileBox.Lite.Abstractions.Backup;
 namespace Mono.FileBox.Lite.Backup.Reader;
 
 /// <summary>Default backup reader backed by the metadata stores.
-/// 中文翻译：默认备份读取器，由元数据存储提供支撑。</summary>
+/// 默认备份读取器，由元数据存储提供支撑。</summary>
 public sealed class DefaultBackupReader : IBackupReader
 {
     private readonly IBackupPointStore _points;

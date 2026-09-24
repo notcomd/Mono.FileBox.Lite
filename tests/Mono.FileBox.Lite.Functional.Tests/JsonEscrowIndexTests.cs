@@ -9,7 +9,7 @@ namespace Mono.FileBox.Lite.Functional.Tests;
 /// Covers the JSON-document <see cref="JsonFileIndexStore"/> (round-trip, cross-instance
 /// persistence, delete, clear) and the <see cref="HotCachingIndexStore"/> (promotion by read
 /// count, LRU eviction, hot sidecar warmup that serves reads without touching the main file).
-/// 中文翻译：覆盖 JSON 文档索引库（往返、跨实例持久化、删除、清空）与热点缓存索引库（按读取次数提升、LRU 淘汰、热点旁路预热以在不动主文件的情况下服务读取）。
+/// 覆盖 JSON 文档索引库（往返、跨实例持久化、删除、清空）与热点缓存索引库（按读取次数提升、LRU 淘汰、热点旁路预热以在不动主文件的情况下服务读取）。
 /// </summary>
 public sealed class JsonEscrowIndexTests : IDisposable
 {

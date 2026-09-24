@@ -7,7 +7,7 @@ namespace Mono.FileBox.Lite.Index.Storage;
 /// <summary>
 /// Opaque pagination cursor. Carries the last content hash so paging is stable even
 /// under concurrent writes.
-/// 中文翻译：不透明的分页游标。携带最后一个内容哈希，使分页在并发写入下依然保持稳定。
+/// 不透明的分页游标。携带最后一个内容哈希，使分页在并发写入下依然保持稳定。
 /// </summary>
 public sealed class PageCursor
 {

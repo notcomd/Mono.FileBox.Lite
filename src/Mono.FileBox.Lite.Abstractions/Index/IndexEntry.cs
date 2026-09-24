@@ -1,7 +1,7 @@
 // 本文件包含类型 IndexEntry：已存储对象的单条索引元数据条目。
 namespace Mono.FileBox.Lite.Abstractions.Index;
 
-/// <summary>A single indexed metadata entry for a stored object. 中文翻译：已存储对象的单条索引元数据条目。</summary>
+/// <summary>A single indexed metadata entry for a stored object. 已存储对象的单条索引元数据条目。</summary>
 public sealed record IndexEntry
 {
     public string ContentHash { get; init; } = string.Empty;

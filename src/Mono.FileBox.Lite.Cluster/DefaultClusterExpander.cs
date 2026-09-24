@@ -7,7 +7,7 @@ namespace Mono.FileBox.Lite.Cluster;
 /// <summary>
 /// Cluster expander for standalone operation. Joining registers the node; rebalancing
 /// is a no-op because a single node already holds every block.
-/// 中文翻译：独立运行模式的集群扩展器。加入仅注册节点；由于单节点已持有所有数据块，因此再平衡为空操作。
+/// 独立运行模式的集群扩展器。加入仅注册节点；由于单节点已持有所有数据块，因此再平衡为空操作。
 /// </summary>
 public sealed class DefaultClusterExpander : IClusterExpander
 {

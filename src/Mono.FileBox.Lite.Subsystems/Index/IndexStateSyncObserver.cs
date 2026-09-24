@@ -11,7 +11,7 @@ namespace Mono.FileBox.Lite.Subsystems.Index;
 /// <summary>
 /// Observer that keeps the index entry's <see cref="IndexEntry.State"/> and
 /// tier in sync as the object moves through later lifecycle transitions.
-/// 中文翻译：随着对象经历后续生命周期转移，保持索引条目的 <see cref="IndexEntry.State"/> 与分层信息同步的观察者。
+/// 随着对象经历后续生命周期转移，保持索引条目的 <see cref="IndexEntry.State"/> 与分层信息同步的观察者。
 /// </summary>
 public sealed class IndexStateSyncObserver : ITransitionObserver
 {

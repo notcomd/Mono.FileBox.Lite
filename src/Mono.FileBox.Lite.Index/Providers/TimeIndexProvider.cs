@@ -5,7 +5,7 @@ using Mono.FileBox.Lite.Abstractions.Index;
 namespace Mono.FileBox.Lite.Index.Providers;
 
 /// <summary>Time index provider (handles CreatedAt and ModifiedAt).
-/// 中文翻译：时间索引提供方（处理 CreatedAt 与 ModifiedAt）。
+/// 时间索引提供方（处理 CreatedAt 与 ModifiedAt）。
 /// </summary>
 public sealed class TimeIndexProvider : SingleKindProvider
 {

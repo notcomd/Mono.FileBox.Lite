@@ -10,7 +10,7 @@ using Mono.FileBox.Lite.Index.Storage;
 namespace Mono.FileBox.Lite.DependencyInjection.Builders;
 
 /// <summary>Fluent builder for the structured index wiring.
-/// 中文翻译：用于结构化索引装配的流式（fluent）构建器。</summary>
+/// 用于结构化索引装配的流式（fluent）构建器。</summary>
 public sealed class IndexBuilder
 {
     private readonly IServiceCollection _services;
